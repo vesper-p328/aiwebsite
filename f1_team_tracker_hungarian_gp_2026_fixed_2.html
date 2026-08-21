@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIA Formula 1 Championship Team Tracker • 2026 Hungarian GP Standings</title>
+  
+  <!-- Exact Fonts: Orbitron (Display/Tech Headers & Numbers) + Plus Jakarta Sans (Clean Motorsport Body/Meta) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-base: #080C14;
+      --bg-surface: #0E1422;
+      --bg-card: #121A2B;
+      --bg-card-inner: #0B111D;
+      --bg-card-hover: #162035;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-bright: rgba(255, 255, 255, 0.2);
+      --text-main: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --text-dim: #6B7280;
+      --f1-red: #E10600;
+      --f1-gold: #FFB800;
+      --live-green: #00E676;
+      
+      --font-display: 'Orbitron', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
+        radial-gradient(circle at 10% 40%, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+    }
+
+    .top-header {
+      background: linear-gradient(180deg, #101624 0%, #080C14 100%);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 110;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .f1-badge {
+      font-family: var(--font-display);
+      background: var(--f1-red);
+      color: #FFF;
+      font-weight: 900;
+      font-size: 1.15rem;
+      padding: 4px 12px;
+      border-radius: 6px;
+      letter-spacing: -0.5px;
+      box-shadow: 0 0 20px rgba(225, 6, 0, 0.6), 0 0 40px rgba(225, 6, 0, 0.25);
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .year-chip {
+      font-family: var(--font-display);
+      background: rgba(255, 184, 0, 0.15);
+      border: 1px solid var(--f1-gold);
+      color: var(--f1-gold);
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-subtitle {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--live-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--live-green);
+      display: inline-block;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .top-action-btn {
+      font-family: var(--font-body);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .top-action-btn:hover, .top-action-btn.active {
+      background: var(--bg-card-hover);
+      border-color: var(--border-bright);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-container {
+      background: rgba(9, 13, 22, 0.95);
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .team-navbar {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-bright) transparent;
+      padding: 10px 18px;
+      gap: 10px;
+    }
+
+    .team-navbar::-webkit-scrollbar {
+      height: 4px;
+    }
+    .team-navbar::-webkit-scrollbar-thumb {
+      background: var(--border-bright);
+      border-radius: 4px;
+    }
+
+    .nav-tab-btn {
+      font-family: var(--font-display);
+      flex: 0 0 auto;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 7px 14px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .nav-tab-btn:hover {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border-color: rgba(var(--team-rgb, 255, 255, 255), 0.4);
+      box-shadow: 0 0 15px rgba(var(--team-rgb, 255, 255, 255), 0.25);
+      transform: translateY(-1px);
+    }
+
+    .nav-tab-btn.active {
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(var(--team-rgb, 255, 255, 255), 0.15) 100%);
+      color: #FFF;
+      border-color: var(--team-color, #FFF);
+      box-shadow: 
+        0 0 20px rgba(var(--team-rgb, 255, 255, 255), 0.4),
+        inset 0 0 10px rgba(var(--team-rgb, 255, 255, 255), 0.2);
+    }
+
+    .nav-pos-box {
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 0.72rem;
+      font-weight: 900;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--text-main);
+    }
+
+    .nav-tab-btn.active .nav-pos-box {
+      background: var(--team-color, #FFF);
+      color: #000;
+      box-shadow: 0 0 10px var(--team-color, #FFF);
+    }
+
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--team-color, #FFF);
+      box-shadow: 0 0 6px var(--team-color, #FFF);
+    }
+
+    .nav-pts-tag {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .nav-tab-btn.active .nav-pts-tag {
+      color: var(--f1-gold);
+      text-shadow: 0 0 8px rgba(255, 184, 0, 0.4);
+    }
+
+    .portal-main {
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 24px auto;
+      padding: 0 20px;
+      position: relative;
+    }
+
+    .team-page {
+      display: none;
+      animation: neonPortalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .team-page.active {
+      display: block;
+    }
+
+    @keyframes neonPortalIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .ambient-glow-backdrop {
+      position: absolute;
+      top: -30px;
+      left: 5%;
+      right: 5%;
+      height: 420px;
+      background: radial-gradient(ellipse at 50% 20%, rgba(var(--team-rgb, 255, 255, 255), 0.22) 0%, rgba(var(--team-rgb, 255, 255, 255), 0.04) 50%, transparent 80%);
+      filter: blur(55px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .showcase-hero-layout {
+      background: linear-gradient(135deg, rgba(14, 20, 34, 0.95) 0%, rgba(var(--team-rgb, 255, 255, 255), 0.08) 100%);
+      border: 1px solid rgba(var(--team-rgb, 255, 255, 255), 0.35);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 
+        0 12px 45px rgba(0, 0, 0, 0.5),
+        0 0 35px rgba(var(--team-rgb, 255, 255, 255), 0.22),
+        inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      margin-bottom: 28px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+    }
+
+    @media (max-width: 1024px) {
+      .showcase-hero-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .showcase-hero-layout::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--team-color, #FFF) 0%, rgba(var(--team-rgb, 255, 255, 255), 0.3) 100%);
+      box-shadow: 0 0 15px var(--team-color, #FFF), 0 0 30px var(--team-color, #FFF);
+    }
+
+    .hero-left-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-pill-tags {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .leader-pill {
+      font-family: var(--font-display);
+      background: var(--f1-red);
+      color: #FFF;
+      font-size: 0.72rem;
+      font-weight: 900;
+      padding: 5px 12px;
+      border-radius: 6px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      box-shadow: 0 0 12px rgba(225, 6, 0, 0.5);
+    }
+
+    .meta-chip {
+      font-family: var(--font-body);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .team-main-title {
+      font-family: var(--font-display);
+      font-size: 2.3rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: #FFF;
+      text-transform: uppercase;
+      text-shadow: 0 0 25px rgba(var(--team-rgb, 255, 255, 255), 0.4);
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .team-location {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 26px;
+    }
+
+    .specs-sub-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .specs-sub-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sub-spec-card {
+      background: var(--bg-card-inner);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .sub-spec-card .card-head {
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .sub-spec-card .card-val {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #FFF;
+    }
+
+    .sub-spec-card .card-sub {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .hero-metrics-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .stat-metric-card {
+      background: var(--bg-card-inner);
+      border: 1px solid rgba(var(--team-rgb, 255, 255, 255), 0.2);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .stat-metric-card:hover {
+      border-color: rgba(var(--team-rgb, 255, 255, 255), 0.45);
+      box-shadow: 0 0 20px rgba(var(--team-rgb, 255, 255, 255), 0.25);
+    }
+
+    .stat-metric-card .metric-number {
+      font-family: var(--font-display);
+      font-size: 2.1rem;
+      font-weight: 900;
+      color: #FFF;
+      line-height: 1;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .stat-metric-card .metric-title {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      margin-top: 8px;
+    }
+
+    .stat-metric-card .metric-sub {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .section-bar-header {
+      margin-bottom: 20px;
+    }
+
+    .section-bar-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-bar-title::before {
+      content: "";
+      width: 5px;
+      height: 20px;
+      background: var(--f1-red);
+      border-radius: 3px;
+      box-shadow: 0 0 12px var(--f1-red);
+    }
+
+    .section-bar-sub {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      margin-left: 15px;
+    }
+
+    .drivers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+
+    @media (max-width: 860px) {
+      .drivers-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .driver-card {
+      background: var(--bg-surface);
+      border: 1px solid rgba(var(--team-rgb, 255, 255, 255), 0.18);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .driver-card:hover {
+      border-color: rgba(var(--team-rgb, 255, 255, 255), 0.5);
+      box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.5),
+        0 0 25px rgba(var(--team-rgb, 255, 255, 255), 0.25);
+      transform: translateY(-3px);
+    }
+
+    .driver-watermark-num {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-family: var(--font-display);
+      font-size: 6.5rem;
+      font-weight: 900;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.04);
+      pointer-events: none;
+      line-height: 1;
+      z-index: 1;
+    }
+
+    .driver-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .driver-forename {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .driver-surname {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #FFF;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      text-shadow: 0 0 15px rgba(var(--team-rgb, 255, 255, 255), 0.4);
+    }
+
+    .driver-code-meta {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .driver-rank-chip {
+      font-family: var(--font-display);
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--f1-gold);
+      color: var(--f1-gold);
+      font-size: 0.8rem;
+      font-weight: 900;
+      padding: 6px 14px;
+      border-radius: 20px;
+      letter-spacing: 0.8px;
+      box-shadow: 0 0 14px rgba(255, 184, 0, 0.25);
+    }
+
+    .radio-comms-box {
+      background: var(--bg-card-inner);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .radio-head {
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .radio-title-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .radio-engineer-name {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .radio-quote {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-style: italic;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .driver-stat-matrix {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      background: var(--bg-card-inner);
+      border-radius: 10px;
+      padding: 12px 6px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .stat-col {
+      text-align: center;
+    }
+
+    .stat-col:not(:last-child) {
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    .stat-col .stat-val {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #FFF;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-col .stat-lbl {
+      font-family: var(--font-display);
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      margin-top: 2px;
+    }
+
+    .page-footer-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-subtle);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-nav-btn {
+      font-family: var(--font-display);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-nav-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(var(--team-rgb, 255, 255, 255), 0.4);
+      box-shadow: 0 0 18px rgba(var(--team-rgb, 255, 255, 255), 0.25);
+    }
+
+    .overview-page {
+      display: none;
+      animation: neonPortalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .overview-page.active {
+      display: block;
+    }
+
+    .f1-table-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 35px rgba(0,0,0,0.4);
+    }
+
+    .f1-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .f1-table th {
+      font-family: var(--font-display);
+      background: rgba(0,0,0,0.4);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .f1-table td {
+      font-family: var(--font-body);
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      vertical-align: middle;
+      font-size: 0.92rem;
+      transition: background 0.15s ease;
+    }
+
+    .f1-table tr {
+      cursor: pointer;
+    }
+
+    .f1-table tr:hover td {
+      background: var(--bg-card-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Brand Header -->
+  <header class="top-header">
+    <div class="brand-group">
+      <div class="f1-badge">F1</div>
+      <div>
+        <div class="brand-title">
+          <span>Team Tracker</span>
+          <span class="year-chip">2026 Official</span>
+        </div>
+        <div class="brand-subtitle">
+          <span class="live-dot"></span>
+          <span>2026 FIA F1 World Championship • Standings after Hungarian GP (Round 11)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header View Toggles -->
+    <div class="header-actions">
+      <button class="top-action-btn active" id="topBtnShowcase" onclick="switchPage(activePageId === 'overview' ? 'mercedes' : activePageId)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3zm0 10h8v8H3zM13 3h8v8h-8zm0 10h8v8h-8z"/></svg>
+        Team Showcase
+      </button>
+      <button class="top-action-btn" id="topBtnTable" onclick="switchPage('overview')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v4h6V5zm8 0v4h6V5zm6 6h-6v4h6zm-8 0H5v4h6zm-6 6v4h6v-4zm8 0v4h6v-4z"/></svg>
+        Standings Table
+      </button>
+    </div>
+  </header>
+
+  <!-- Sticky Glowing 11-Team Navbar -->
+  <nav class="nav-container">
+    <div class="team-navbar" id="teamNavbar">
+      <!-- Dynamic Navbar Tabs -->
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="portal-main" id="portalMain">
+    <!-- Standings Overview Page -->
+    <section class="overview-page" id="page-overview">
+      <div class="f1-table-card">
+        <div style="padding: 22px 26px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; letter-spacing: 0.5px;">2026 Constructors Championship & Performance Matrix (Post-Hungaroring)</h2>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Select any team row to view detailed telemetry portal</span>
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="f1-table">
+            <thead>
+              <tr>
+                <th>Pos</th>
+                <th>Team</th>
+                <th>Car</th>
+                <th>Team Principal</th>
+                <th>Season Pts</th>
+                <th>Historical Pts</th>
+                <th>Titles</th>
+                <th>Wins</th>
+                <th>Drivers (WDC Pos / Season Pts)</th>
+              </tr>
+            </thead>
+            <tbody id="overviewTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Individual Team Pages Injected via JavaScript -->
+    <div id="individualTeamPages"></div>
+  </main>
+
+  <script>
+    // Official 2026 Standings as of the Hungarian GP (Round 11, July 26, 2026)
+    const f1Teams = [
+  {
+    "id": "mercedes",
+    "name": "Mercedes-AMG PETRONAS F1 Team",
+    "shortName": "MER",
+    "countryFlag": "\ud83c\udde9\ud83c\uddea Germany",
+    "engineBadge": "Mercedes Works 2026",
+    "color": "#27F4D2",
+    "rgb": "39, 244, 210",
+    "standing": 1,
+    "standingTitle": "2026 CONSTRUCTOR LEADER",
+    "seasonPoints": 379,
+    "historicalPoints": 7761.0,
+    "teamTitles": 8,
+    "teamWins": 136,
+    "car": "Mercedes-AMG W17",
+    "carDetails": "Mercedes-AMG M17 High Performance Turbo Hybrid",
+    "principal": "Toto Wolff",
+    "principalRole": "CEO & Team Principal",
+    "base": "Brackley, Northamptonshire, United Kingdom",
+    "drivers": [
+      {
+        "number": 12,
+        "forename": "ANDREA KIMI",
+        "surname": "ANTONELLI",
+        "codeMeta": "IT ITA \u2022 Permanent Car #12 \u2022 2026 Driver",
+        "standingChip": "P1 \u2022 219 PTS",
+        "raceEngineer": "Peter Bonnington (Bono)",
+        "radioQuote": "\u201cIncredible drive Kimi! P1 in the World Championship. Keep this momentum into the summer break.\u201d",
+        "wdcTitles": 0,
+        "wins": 6,
+        "podiums": 9,
+        "seasonPoints": 219
+      },
+      {
+        "number": 63,
+        "forename": "GEORGE",
+        "surname": "RUSSELL",
+        "codeMeta": "GB GBR \u2022 Permanent Car #63 \u2022 2026 Driver",
+        "standingChip": "P3 \u2022 160 PTS",
+        "raceEngineer": "Marcus Dudley",
+        "radioQuote": "\u201cGeorge, solid points in Hungary. P3 in the championship, great team execution.\u201d",
+        "wdcTitles": 0,
+        "wins": 2,
+        "podiums": 5,
+        "seasonPoints": 160
+      }
+    ]
+  },
+  {
+    "id": "ferrari",
+    "name": "Scuderia Ferrari HP",
+    "shortName": "FER",
+    "countryFlag": "\ud83c\uddee\ud83c\uddf9 Italy",
+    "engineBadge": "Ferrari 067/1 Works",
+    "color": "#E8002D",
+    "rgb": "232, 0, 45",
+    "standing": 2,
+    "standingTitle": "2026 TITLE CONTENDER",
+    "seasonPoints": 307,
+    "historicalPoints": 11099.5,
+    "teamTitles": 16,
+    "teamWins": 250,
+    "car": "Ferrari SF-26",
+    "carDetails": "Ferrari 067/1 Works Hybrid (350kW MGU-K + Active Aero)",
+    "principal": "Fr\u00e9d\u00e9ric Vasseur",
+    "principalRole": "Scuderia General Management",
+    "base": "Maranello, Emilia-Romagna, Italy",
+    "drivers": [
+      {
+        "number": 44,
+        "forename": "LEWIS",
+        "surname": "HAMILTON",
+        "codeMeta": "GB GBR \u2022 Permanent Car #44 \u2022 2026 Driver",
+        "standingChip": "P2 \u2022 169 PTS",
+        "raceEngineer": "Carlo Santi",
+        "radioQuote": "\u201cP2 in the Drivers' Championship, Lewis. Solid recovery in Budapest, great execution.\u201d",
+        "wdcTitles": 7,
+        "wins": 106,
+        "podiums": 206,
+        "seasonPoints": 169
+      },
+      {
+        "number": 16,
+        "forename": "CHARLES",
+        "surname": "LECLERC",
+        "codeMeta": "MC MON \u2022 Permanent Car #16 \u2022 2026 Driver",
+        "standingChip": "P4 \u2022 138 PTS",
+        "raceEngineer": "Bryan Bozzi",
+        "radioQuote": "\u201cCharles, P4 finish confirmed. Energy harvest delta was strong in sector 3.\u201d",
+        "wdcTitles": 0,
+        "wins": 9,
+        "podiums": 47,
+        "seasonPoints": 138
+      }
+    ]
+  },
+  {
+    "id": "mclaren",
+    "name": "McLaren Formula 1 Team",
+    "shortName": "MCL",
+    "countryFlag": "\ud83c\uddec\ud83c\udde7 UK",
+    "engineBadge": "Mercedes M17",
+    "color": "#FF8000",
+    "rgb": "255, 128, 0",
+    "standing": 3,
+    "standingTitle": "2026 RACE WINNER",
+    "seasonPoints": 220,
+    "historicalPoints": 6788.5,
+    "teamTitles": 9,
+    "teamWins": 189,
+    "car": "McLaren MCL40",
+    "carDetails": "Mercedes-AMG M17 1.6L V6 Turbo Hybrid",
+    "principal": "Andrea Stella",
+    "principalRole": "Team Principal & Racing Operations",
+    "base": "Woking, Surrey, United Kingdom",
+    "drivers": [
+      {
+        "number": 1,
+        "forename": "LANDO",
+        "surname": "NORRIS",
+        "codeMeta": "GB GBR \u2022 Permanent Car #1 \u2022 2026 World Champion",
+        "standingChip": "P5 \u2022 128 PTS",
+        "raceEngineer": "Will Joseph",
+        "radioQuote": "\u201cVICTORY AT THE HUNGARORING! Magnificent drive Lando, back on the top step!\u201d",
+        "wdcTitles": 1,
+        "wins": 5,
+        "podiums": 31,
+        "seasonPoints": 128
+      },
+      {
+        "number": 81,
+        "forename": "OSCAR",
+        "surname": "PIASTRI",
+        "codeMeta": "AU AUS \u2022 Permanent Car #81 \u2022 2026 Driver",
+        "standingChip": "P7 \u2022 92 PTS",
+        "raceEngineer": "Tom Stallard",
+        "radioQuote": "\u201cTough break with the DNF in Hungary Oscar, pace was leading the race early on.\u201d",
+        "wdcTitles": 0,
+        "wins": 2,
+        "podiums": 12,
+        "seasonPoints": 92
+      }
+    ]
+  },
+  {
+    "id": "redbull",
+    "name": "Oracle Red Bull Racing",
+    "shortName": "RBR",
+    "countryFlag": "\ud83c\udde6\ud83c\uddf9 Austria",
+    "engineBadge": "Ford RBPT 2026",
+    "color": "#3671C6",
+    "rgb": "54, 113, 198",
+    "standing": 4,
+    "standingTitle": "2026 PODIUM REGULAR",
+    "seasonPoints": 177,
+    "historicalPoints": 7813.0,
+    "teamTitles": 6,
+    "teamWins": 122,
+    "car": "Red Bull RB22",
+    "carDetails": "Red Bull Ford Powertrains Turbo Hybrid",
+    "principal": "Laurent Mekies",
+    "principalRole": "CEO & Team Principal",
+    "base": "Milton Keynes, Buckinghamshire, UK",
+    "drivers": [
+      {
+        "number": 3,
+        "forename": "MAX",
+        "surname": "VERSTAPPEN",
+        "codeMeta": "NL NLD \u2022 Permanent Car #3 \u2022 2026 Driver",
+        "standingChip": "P6 \u2022 109 PTS",
+        "raceEngineer": "Gianpiero Lambiase (GP)",
+        "radioQuote": "\u201cP2 in Hungary Max! Great recovery drive and maximum points haul today.\u201d",
+        "wdcTitles": 4,
+        "wins": 63,
+        "podiums": 115,
+        "seasonPoints": 109
+      },
+      {
+        "number": 6,
+        "forename": "ISACK",
+        "surname": "HADJAR",
+        "codeMeta": "FR FRA \u2022 Permanent Car #6 \u2022 2026 Driver",
+        "standingChip": "P8 \u2022 68 PTS",
+        "raceEngineer": "Richard Wood (Woody)",
+        "radioQuote": "\u201cP6 in Hungary Isack, really consistent pace across both stints.\u201d",
+        "wdcTitles": 0,
+        "wins": 0,
+        "podiums": 0,
+        "seasonPoints": 68
+      }
+    ]
+  },
+  {
+    "id": "racingbulls",
+    "name": "Visa Cash App RB F1 Team",
+    "shortName": "VCARB",
+    "countryFlag": "\ud83c\uddee\ud83c\uddf9 Italy",
+    "engineBadge": "Ford RBPT 2026",
+    "color": "#6692FF",
+    "rgb": "102, 146, 255",
+    "standing": 5,
+    "standingTitle": "2026 BEST OF MIDFIELD",
+    "seasonPoints": 66,
+    "historicalPoints": 970.0,
+    "teamTitles": 0,
+    "teamWins": 2,
+    "car": "VCARB 03",
+    "carDetails": "Red Bull Ford Powertrains Turbo Hybrid",
+    "principal": "Alan Permane",
+    "principalRole": "Team Principal",
+    "base": "Faenza, Ravenna, Italy",
+    "drivers": [
+      {
+        "number": 30,
+        "forename": "LIAM",
+        "surname": "LAWSON",
+        "codeMeta": "NZ NZL \u2022 Permanent Car #30 \u2022 2026 Driver",
+        "standingChip": "P9 \u2022 43 PTS",
+        "raceEngineer": "Alexandre Iliopoulos",
+        "radioQuote": "\u201cP8 finish Liam, great points in Hungary. Fastest pit stop of the race too!\u201d",
+        "wdcTitles": 0,
+        "wins": 0,
+        "podiums": 0,
+        "seasonPoints": 43
+      },
+      {
+        "number": 41,
+        "forename": "ARVID",
+        "surname": "LINDBLAD",
+        "codeMeta": "GB GBR \u2022 Permanent Car #41 \u2022 2026 Rookie",
+        "standingChip": "P11 \u2022 23 PTS",
+        "raceEngineer": "Pierre Hamelin",
+        "radioQuote": "\u201cP10 Arvid! Another point in your rookie season, fantastic race craft.\u201d",
+        "wdcTitles": 0,
+        "wins": 0,
+        "podiums": 0,
+        "seasonPoints": 23
+      }
+    ]
+  },
+  {
+    "id": "alpine",
+    "name": "BWT Alpine F1 Team",
+    "shortName": "ALP",
+    "countryFlag": "\ud83c\uddeb\ud83c\uddf7 France",
+    "engineBadge": "Mercedes Customer",
+    "color": "#0093CC",
+    "rgb": "0, 147, 204",
+    "standing": 6,
+    "standingTitle": "2026 PODIUM SCORER",
+    "seasonPoints": 61,
+    "historicalPoints": 2061.0,
+    "teamTitles": 2,
+    "teamWins": 21,
+    "car": "Alpine A526",
+    "carDetails": "Mercedes-AMG Customer Power Unit",
+    "principal": "Oliver Oakes",
+    "principalRole": "Team Principal",
+    "base": "Enstone, Oxfordshire, United Kingdom",
+    "drivers": [
+      {
+        "number": 10,
+        "forename": "PIERRE",
+        "surname": "GASLY",
+        "codeMeta": "FR FRA \u2022 Permanent Car #10 \u2022 2026 Driver",
+        "standingChip": "P10 \u2022 42 PTS",
+        "raceEngineer": "Josh Peckett",
+        "radioQuote": "\u201cGood effort Pierre, Monaco podium remains our season highlight.\u201d",
+        "wdcTitles": 0,
+        "wins": 1,
+        "podiums": 6,
+        "seasonPoints": 42
+      },
+      {
+        "number": 43,
+        "forename": "FRANCO",
+        "surname": "COLAPINTO",
+        "codeMeta": "AR ARG \u2022 Permanent Car #43 \u2022 2026 Driver",
+        "standingChip": "P12 \u2022 19 PTS",
+        "raceEngineer": "Stuart Barlow",
+        "radioQuote": "\u201cP12 in the championship Franco, solid development progression.\u201d",
+        "wdcTitles": 0,
+        "wins": 0,
+        "podiums": 0,
+        "seasonPoints": 19
+      }
+    ]
+  },
+  {
+    "id": "haas",
+    "name": "MoneyGram Haas F1 Team",
+    "shortName": "HAA",
+    "countryFlag": "\ud83c\uddfa\ud83c\uddf8 USA",
+    "engineBadge": "Ferrari 067 Customer",
+    "color": "#B6BABD",
+    "rgb": "182, 186, 189",
+    "standing": 7,
+    "standingTitle": "2026 POINTS SCORER",
+    "seasonPoints": 21,
+    "historicalPoints": 311.0,
+    "teamTitles": 0,
+    "teamWins": 0,
+    "car": "Haas VF-26",
+    "carDetails": "Ferrari 067 Customer Turbo Hybrid",
+    "principal": "Ayao Komatsu",
+    "principalRole": "Team Principal",
+    "base": "Kannapolis (US) & Banbury (UK)",
+    "drivers": [
+      {
+        "number": 87,
+        "forename": "OLIVER",
+        "surname": "BEARMAN",
+        "codeMeta": "GB GBR \u2022 Permanent Car #87 \u2022 2026 Driver",
+        "standingChip": "P13 \u2022 18 PTS",
+        "raceEngineer": "Ronan O'Hare",
+        "radioQuote": "\u201cKeep pushing Ollie, top-10 in Australia, China and Canada.\u201d",
+        "wdcTitles": 0,
+        "wins": 0,
+        "podiums": 0,
+        "seasonPoints": 18
+      },
+      {
+        "number": 31,
+        "forename": "ESTEBAN",
+        "surname": "OCON",
+        "codeMeta": "FR FRA \u2022 Permanent Car #31 \u2022 2026 Driver",
+        "standingChip": "P17 \u2022 3 PTS",
+        "raceEngineer": "Laura M\u00fcller",
+        "radioQuote": "\u201cTire management was clean today Esteban. Points in Japan and Monaco.\u201d",
+        "wdcTitles": 0,
+        "wins": 1,
+        "podiums": 4,
+        "seasonPoints": 3
+      }
+    ]
+  },
+  {
+    "id": "audi",
+    "name": "Audi Revolut F1 Team",
+    "shortName": "AUD",
+    "countryFlag": "\ud83c\udde9\ud83c\uddea Germany",
+    "engineBadge": "Audi Works PU",
+    "color": "#E22028",
+    "rgb": "226, 32, 40",
+    "standing": 8,
+    "standingTitle": "2026 NEW WORKS ENTRANT",
+    "seasonPoints": 12,
+    "historicalPoints": 877.0,
+    "teamTitles": 0,
+    "teamWins": 1,
+    "car": "Audi R26",
+    "carDetails": "Audi Formula Racing Works 1.6L V6 Hybrid",
+    "principal": "Jonathan Wheatley & Mattia Binotto",
+    "principalRole": "Team Principal & Chief Operating Officer",
+    "base": "Neuburg an der Donau (Germany) & Hinwil (Switzerland)",
+    "drivers": [
+      {
+        "number": 5,
+        "forename": "GABRIEL",
+        "surname": "BORTOLETO",
+        "codeMeta": "BR BRA \u2022 Permanent Car #5 \u2022 2026 Driver",
+        "standingChip": "P14 \u2022 10 PTS",
+        "raceEngineer": "Jose Manuel L\u00f3pez",
+        "radioQuote": "\u201cGreat points in Australia, Silverstone and Spa Gabriel. Audi program progressing well.\u201d",
+        "wdcTitles": 0,
+        "wins": 0,
+        "podiums": 0,
+        "seasonPoints": 10
+      },
+      {
+        "number": 27,
+        "forename": "NICO",
+        "surname": "HULKENBERG",
+        "codeMeta": "DE DEU \u2022 Permanent Car #27 \u2022 2026 Driver",
+        "standingChip": "P18 \u2022 2 PTS",
+        "raceEngineer": "Steven Petrik",
+        "radioQuote": "\u201cPoints finish in Hungary Nico! P9 today, great job on strategy.\u201d",
+        "wdcTitles": 0,
+        "wins": 0,
+        "podiums": 0,
+        "seasonPoints": 2
+      }
+    ]
+  },
+  {
+    "id": "williams",
+    "name": "Atlassian Williams Racing",
+    "shortName": "WIL",
+    "countryFlag": "\ud83c\uddec\ud83c\udde7 UK",
+    "engineBadge": "Mercedes M17",
+    "color": "#64C4FF",
+    "rgb": "100, 196, 255",
+    "standing": 9,
+    "standingTitle": "2026 COMPETITOR",
+    "seasonPoints": 11,
+    "historicalPoints": 3571.0,
+    "teamTitles": 9,
+    "teamWins": 114,
+    "car": "Williams FW48",
+    "carDetails": "Mercedes-AMG High Performance Powertrains",
+    "principal": "James Vowles",
+    "principalRole": "Team Principal",
+    "base": "Grove, Oxfordshire, United Kingdom",
+    "drivers": [
+      {
+        "number": 55,
+        "forename": "CARLOS",
+        "surname": "SAINZ",
+        "codeMeta": "ES ESP \u2022 Permanent Car #55 \u2022 2026 Driver",
+        "standingChip": "P15 \u2022 6 PTS",
+        "raceEngineer": "Ga\u00ebtan Jego",
+        "radioQuote": "\u201cCarlos, points in China, Miami and Canada. Let's target a strong second half.\u201d",
+        "wdcTitles": 0,
+        "wins": 4,
+        "podiums": 25,
+        "seasonPoints": 6
+      },
+      {
+        "number": 23,
+        "forename": "ALEXANDER",
+        "surname": "ALBON",
+        "codeMeta": "TH THA \u2022 Permanent Car #23 \u2022 2026 Driver",
+        "standingChip": "P16 \u2022 5 PTS",
+        "raceEngineer": "James Urwin",
+        "radioQuote": "\u201cPoints in Miami and Monaco Alex, balance is improving on medium speed tracks.\u201d",
+        "wdcTitles": 0,
+        "wins": 0,
+        "podiums": 2,
+        "seasonPoints": 5
+      }
+    ]
+  },
+  {
+    "id": "astonmartin",
+    "name": "Aston Martin Aramco F1 Team",
+    "shortName": "AST",
+    "countryFlag": "\ud83c\uddec\ud83c\udde7 UK",
+    "engineBadge": "Honda Works 2026",
+    "color": "#229971",
+    "rgb": "34, 153, 113",
+    "standing": 10,
+    "standingTitle": "2026 HONDA WORKS PROJECT",
+    "seasonPoints": 1,
+    "historicalPoints": 1069.0,
+    "teamTitles": 0,
+    "teamWins": 1,
+    "car": "Aston Martin AMR26",
+    "carDetails": "Honda Racing Corporation HRC-26 Works Hybrid",
+    "principal": "Adrian Newey & Mike Krack",
+    "principalRole": "Managing Technical Partner & Team Principal",
+    "base": "Silverstone, Northamptonshire, UK",
+    "drivers": [
+      {
+        "number": 14,
+        "forename": "FERNANDO",
+        "surname": "ALONSO",
+        "codeMeta": "ES ESP \u2022 Permanent Car #14 \u2022 2026 Driver",
+        "standingChip": "P19 \u2022 1 PT",
+        "raceEngineer": "Andrew Vizard",
+        "radioQuote": "\u201cPoint on the board in Monaco Fernando. Honda PU telemetry is building data.\u201d",
+        "wdcTitles": 2,
+        "wins": 32,
+        "podiums": 106,
+        "seasonPoints": 1
+      },
+      {
+        "number": 18,
+        "forename": "LANCE",
+        "surname": "STROLL",
+        "codeMeta": "CA CAN \u2022 Permanent Car #18 \u2022 2026 Driver",
+        "standingChip": "P20 \u2022 0 PTS",
+        "raceEngineer": "Gary Gannon",
+        "radioQuote": "\u201cP13 in Hungary Lance, better balance on the hard compound.\u201d",
+        "wdcTitles": 0,
+        "wins": 0,
+        "podiums": 3,
+        "seasonPoints": 0
+      }
+    ]
+  },
+  {
+    "id": "cadillac",
+    "name": "Cadillac Formula 1 Team",
+    "shortName": "CAD",
+    "countryFlag": "\ud83c\uddfa\ud83c\uddf8 USA",
+    "engineBadge": "Ferrari Customer PU",
+    "color": "#C5A059",
+    "rgb": "197, 160, 89",
+    "standing": 11,
+    "standingTitle": "2026 INAUGURAL SEASON",
+    "seasonPoints": 0,
+    "historicalPoints": 0.0,
+    "teamTitles": 0,
+    "teamWins": 0,
+    "car": "Cadillac MAC-26",
+    "carDetails": "Ferrari Customer Hybrid (GM Factory Powertrain 2028)",
+    "principal": "Graeme Lowdon",
+    "principalRole": "Team Principal",
+    "base": "Fishers (Indiana, USA) & Silverstone (UK)",
+    "drivers": [
+      {
+        "number": 77,
+        "forename": "VALTTERI",
+        "surname": "BOTTAS",
+        "codeMeta": "FI FIN \u2022 Permanent Car #77 \u2022 2026 Driver",
+        "standingChip": "P21 \u2022 0 PTS",
+        "raceEngineer": "John Howard",
+        "radioQuote": "\u201cValtteri, P13 in China was our season best. Data correlation looking positive.\u201d",
+        "wdcTitles": 0,
+        "wins": 10,
+        "podiums": 67,
+        "seasonPoints": 0
+      },
+      {
+        "number": 11,
+        "forename": "SERGIO",
+        "surname": "PEREZ",
+        "codeMeta": "MX MEX \u2022 Permanent Car #11 \u2022 2026 Driver",
+        "standingChip": "P22 \u2022 0 PTS",
+        "raceEngineer": "Carlo Pasetti",
+        "radioQuote": "\u201cCheco, solid running in Spain and Austria. Building baseline for the new package.\u201d",
+        "wdcTitles": 0,
+        "wins": 6,
+        "podiums": 39,
+        "seasonPoints": 0
+      }
+    ]
+  }
+];
+
+    let activePageId = "mercedes";
+
+    // Build the Top Navigation Bar
+    function buildNavbar() {
+      const nav = document.getElementById("teamNavbar");
+      nav.innerHTML = "";
+
+      f1Teams.forEach((team) => {
+        const btn = document.createElement("button");
+        btn.className = "nav-tab-btn";
+        btn.id = "btn-nav-" + team.id;
+        btn.style.setProperty("--team-color", team.color);
+        btn.style.setProperty("--team-rgb", team.rgb);
+        btn.onclick = () => switchPage(team.id);
+
+        btn.innerHTML = `
+          <span class="nav-pos-box">P${team.standing}</span>
+          <span class="nav-dot"></span>
+          <span>${team.shortName}</span>
+          <span class="nav-pts-tag">${team.seasonPoints} PTS</span>
+        `;
+        nav.appendChild(btn);
+      });
+    }
+
+    // Build Dedicated Team Pages
+    function buildTeamPages() {
+      const container = document.getElementById("individualTeamPages");
+      container.innerHTML = "";
+
+      f1Teams.forEach((team, index) => {
+        const page = document.createElement("section");
+        page.className = "team-page";
+        page.id = "page-" + team.id;
+        page.style.setProperty("--team-color", team.color);
+        page.style.setProperty("--team-rgb", team.rgb);
+
+        const prevTeam = f1Teams[(index - 1 + f1Teams.length) % f1Teams.length];
+        const nextTeam = f1Teams[(index + 1) % f1Teams.length];
+
+        const driversHtml = team.drivers.map(d => `
+          <div class="driver-card">
+            <!-- Large Watermark Number -->
+            <div class="driver-watermark-num">#${d.number}</div>
+
+            <div class="driver-top-row">
+              <div>
+                <div class="driver-forename">${d.forename}</div>
+                <div class="driver-surname">${d.surname}</div>
+                <div class="driver-code-meta">${d.codeMeta}</div>
+              </div>
+              <div class="driver-rank-chip">${d.standingChip}</div>
+            </div>
+
+            <!-- Pit to Car Radio Box -->
+            <div class="radio-comms-box">
+              <div class="radio-head">
+                <div class="radio-title-left">
+                  <span class="live-dot" style="width:5px; height:5px;"></span>
+                  <span>Pit-to-Car Radio Comms</span>
+                </div>
+                <span>📡</span>
+              </div>
+              <div class="radio-engineer-name">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="${team.color}"><path d="M12 1a9 9 0 0 0-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2a7 7 0 0 1 14 0v2h-4v8h3c1.66 0 3-1.34 3-3v-7a9 9 0 0 0-9-9z"/></svg>
+                <span>${d.raceEngineer}</span>
+              </div>
+              <div class="radio-quote">${d.radioQuote}</div>
+            </div>
+
+            <!-- Driver 4-stat Bottom Matrix -->
+            <div class="driver-stat-matrix">
+              <div class="stat-col">
+                <div class="stat-val">${d.wdcTitles}</div>
+                <div class="stat-lbl">WDC Titles 🏆</div>
+              </div>
+              <div class="stat-col">
+                <div class="stat-val">${d.wins}</div>
+                <div class="stat-lbl">Grand Prix Wins 🏁</div>
+              </div>
+              <div class="stat-col">
+                <div class="stat-val">${d.podiums}</div>
+                <div class="stat-lbl">Career Podiums 🥉</div>
+              </div>
+              <div class="stat-col">
+                <div class="stat-val">${d.seasonPoints}</div>
+                <div class="stat-lbl">2026 Season Pts</div>
+              </div>
+            </div>
+          </div>
+        `).join("");
+
+        page.innerHTML = `
+          <!-- Ambient Glow Backdrop -->
+          <div class="ambient-glow-backdrop"></div>
+
+          <!-- Showcase Hero Layout -->
+          <div class="showcase-hero-layout">
+            <!-- Left Side: Identity & Specs -->
+            <div class="hero-left-col">
+              <div>
+                <div class="hero-pill-tags">
+                  <span class="leader-pill">P${team.standing} • ${team.standingTitle}</span>
+                  <span class="meta-chip">${team.countryFlag}</span>
+                  <span class="meta-chip">⚡ ${team.engineBadge}</span>
+                </div>
+                <h1 class="team-main-title">${team.name}</h1>
+                <div class="team-location">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+                  <span>${team.base}</span>
+                </div>
+              </div>
+
+              <!-- Sub cards: Team Principal & Car Chassis -->
+              <div class="specs-sub-cards">
+                <div class="sub-spec-card">
+                  <div class="card-head">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    2026 Team Principal
+                  </div>
+                  <div class="card-val">${team.principal}</div>
+                  <div class="card-sub">${team.principalRole}</div>
+                </div>
+
+                <div class="sub-spec-card">
+                  <div class="card-head">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+                    2026 Car Chassis
+                  </div>
+                  <div class="card-val">${team.car}</div>
+                  <div class="card-sub">${team.carDetails}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Side: 2x2 Metric Cards Grid -->
+            <div class="hero-metrics-2x2">
+              <div class="stat-metric-card">
+                <div class="metric-number">${team.seasonPoints}</div>
+                <div class="metric-title">2026 Season Points</div>
+                <div class="metric-sub">2026 Constructor Rank #${team.standing}</div>
+              </div>
+
+              <div class="stat-metric-card">
+                <div class="metric-number">${team.historicalPoints.toLocaleString()}</div>
+                <div class="metric-title">All-Time History Points</div>
+                <div class="metric-sub">Total F1 Career Record Points</div>
+              </div>
+
+              <div class="stat-metric-card">
+                <div class="metric-number">${team.teamTitles}</div>
+                <div class="metric-title">Constructors' Titles</div>
+                <div class="metric-sub">World Championships</div>
+              </div>
+
+              <div class="stat-metric-card">
+                <div class="metric-number">${team.teamWins}</div>
+                <div class="metric-title">Grand Prix Wins</div>
+                <div class="metric-sub">All-Time Race Victories</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section Divider Header -->
+          <div class="section-bar-header">
+            <div class="section-bar-title">Official 2026 Driver Lineup & Dedicated Race Engineers</div>
+            <div class="section-bar-sub">2026 Championship standings after the Hungarian GP (Round 11), driver career laurels, and pit radio telemetry</div>
+          </div>
+
+          <!-- Drivers Grid -->
+          <div class="drivers-grid">
+            ${driversHtml}
+          </div>
+
+          <!-- Bottom Nav Footer -->
+          <div class="page-footer-nav">
+            <button class="footer-nav-btn" onclick="switchPage('${prevTeam.id}')">
+              ← P${prevTeam.standing} ${prevTeam.shortName}
+            </button>
+            <button class="footer-nav-btn" onclick="switchPage('overview')">
+              📊 Full Standings Table
+            </button>
+            <button class="footer-nav-btn" onclick="switchPage('${nextTeam.id}')">
+              P${nextTeam.standing} ${nextTeam.shortName} →
+            </button>
+          </div>
+        `;
+
+        container.appendChild(page);
+      });
+    }
+
+    // Build Overview Standings Table
+    function buildOverviewTable() {
+      const tbody = document.getElementById("overviewTableBody");
+      tbody.innerHTML = "";
+
+      f1Teams.forEach(team => {
+        const tr = document.createElement("tr");
+        tr.onclick = () => switchPage(team.id);
+
+        const driversSummary = team.drivers.map(d => `
+          <strong>#${d.number} ${d.forename} ${d.surname}</strong> (${d.standingChip} | Eng: ${d.raceEngineer} | ${d.wdcTitles} WDC, ${d.wins} Wins, ${d.podiums} Pods)
+        `).join("<br>");
+
+        tr.innerHTML = `
+          <td><strong style="font-family: var(--font-display); color: #FFF;">P${team.standing}</strong></td>
+          <td><strong style="font-family: var(--font-display); color: ${team.color}; text-shadow: 0 0 10px rgba(${team.rgb}, 0.5);">${team.name}</strong></td>
+          <td><span style="font-family: var(--font-display); font-weight:800; color:${team.color};">${team.car}</span></td>
+          <td>${team.principal}</td>
+          <td><strong style="font-family: var(--font-display); font-size: 1.05rem; color: #FFF;">${team.seasonPoints}</strong></td>
+          <td style="font-family: var(--font-display);">${team.historicalPoints.toLocaleString()}</td>
+          <td><strong style="font-family: var(--font-display); color: var(--f1-gold);">${team.teamTitles}</strong></td>
+          <td style="font-family: var(--font-display);">${team.teamWins}</td>
+          <td style="font-size: 0.8rem; line-height: 1.6;">${driversSummary}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Switch View / Team Portal
+    function switchPage(pageId) {
+      activePageId = pageId;
+      window.location.hash = pageId;
+
+      const topBtnShowcase = document.getElementById("topBtnShowcase");
+      const topBtnTable = document.getElementById("topBtnTable");
+      if (pageId === 'overview') {
+        topBtnShowcase.classList.remove("active");
+        topBtnTable.classList.add("active");
+      } else {
+        topBtnShowcase.classList.add("active");
+        topBtnTable.classList.remove("active");
+      }
+
+      document.querySelectorAll(".nav-tab-btn").forEach(btn => btn.classList.remove("active"));
+      const activeBtn = document.getElementById("btn-nav-" + pageId);
+      if (activeBtn) {
+        activeBtn.classList.add("active");
+        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+
+      document.querySelectorAll(".team-page, .overview-page").forEach(page => page.classList.remove("active"));
+
+      if (pageId === 'overview') {
+        document.getElementById("page-overview").classList.add("active");
+      } else {
+        const targetPage = document.getElementById("page-" + pageId);
+        if (targetPage) targetPage.classList.add("active");
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      buildNavbar();
+      buildTeamPages();
+      buildOverviewTable();
+
+      const hash = window.location.hash.replace("#", "");
+      if (hash && (hash === "overview" || f1Teams.some(t => t.id === hash))) {
+        switchPage(hash);
+      } else {
+        switchPage("mercedes");
+      }
+    });
+
+    window.addEventListener("hashchange", () => {
+      const hash = window.location.hash.replace("#", "");
+      if (hash) switchPage(hash);
+    });
+  </script>
+</body>
+</html>
