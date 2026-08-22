@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FIA Formula 1 Championship Team Tracker • 2026 Hungarian GP Standings</title>
+  <title>FIA Formula 1 Championship Team Tracker • 2026 Season & Live Countdown</title>
   
   <!-- Exact Fonts: Orbitron (Display/Tech Headers & Numbers) + Plus Jakarta Sans (Clean Motorsport Body/Meta) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,6 +58,8 @@
       align-items: center;
       position: relative;
       z-index: 110;
+      flex-wrap: wrap;
+      gap: 16px;
     }
 
     .brand-group {
@@ -123,6 +125,35 @@
       display: inline-block;
     }
 
+    /* Live Countdown Widget */
+    .countdown-widget {
+      background: rgba(18, 26, 43, 0.8);
+      border: 1px solid rgba(255, 184, 0, 0.3);
+      border-radius: 12px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 0 20px rgba(255, 184, 0, 0.1);
+    }
+
+    .countdown-info .event-name {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--f1-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .countdown-info .event-timer {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 900;
+      color: #FFF;
+      letter-spacing: 1px;
+    }
+
     .header-actions {
       display: flex;
       align-items: center;
@@ -185,12 +216,12 @@
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
-      padding: 7px 14px;
+      padding: 8px 16px;
       color: var(--text-muted);
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       font-size: 0.82rem;
       font-weight: 700;
       letter-spacing: 0.5px;
@@ -258,13 +289,13 @@
       position: relative;
     }
 
-    .team-page {
+    .team-page, .overview-page, .h2h-page {
       display: none;
       animation: neonPortalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
     }
 
-    .team-page.active {
+    .team-page.active, .overview-page.active, .h2h-page.active {
       display: block;
     }
 
@@ -587,6 +618,13 @@
       text-transform: uppercase;
       line-height: 1.1;
       text-shadow: 0 0 15px rgba(var(--team-rgb, 255, 255, 255), 0.4);
+      cursor: pointer;
+      display: inline-block;
+      transition: color 0.2s ease;
+    }
+
+    .driver-surname:hover {
+      color: var(--f1-gold);
     }
 
     .driver-code-meta {
@@ -729,6 +767,140 @@
       box-shadow: 0 0 18px rgba(var(--team-rgb, 255, 255, 255), 0.25);
     }
 
+    /* Head-to-Head Comparison Page Styles */
+    .h2h-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+
+    .h2h-selectors {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 768px) {
+      .h2h-selectors {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .h2h-select-group label {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: 0.8px;
+    }
+
+    .h2h-select {
+      width: 100%;
+      background: var(--bg-card-inner);
+      border: 1px solid var(--border-bright);
+      color: #FFF;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .h2h-comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .h2h-comparison-grid {
+        grid-template-columns: 1fr;
+      }
+      .h2h-vs-badge {
+        margin: 10px 0;
+      }
+    }
+
+    .h2h-driver-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .h2h-driver-box h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #FFF;
+      margin-top: 8px;
+    }
+
+    .h2h-driver-box .team-tag {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .h2h-vs-badge {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--f1-gold);
+      text-align: center;
+      padding: 10px;
+      text-shadow: 0 0 15px rgba(255, 184, 0, 0.5);
+    }
+
+    .h2h-stats-list {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .h2h-stat-row {
+      background: var(--bg-card-inner);
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      text-align: center;
+    }
+
+    .h2h-stat-row .stat-label {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .h2h-stat-val {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #FFF;
+    }
+
+    .h2h-stat-val.winner {
+      color: var(--live-green);
+      text-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
+    }
+
     .overview-page {
       display: none;
       animation: neonPortalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -781,6 +953,79 @@
     .f1-table tr:hover td {
       background: var(--bg-card-hover);
     }
+
+    #yukiModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: fadeInModal 0.3s ease;
+    }
+
+    @keyframes fadeInModal {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .yuki-content-box {
+      background: #121A2B;
+      border: 2px solid #6692FF;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(102, 146, 255, 0.4);
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .yuki-content-box h2 {
+      font-family: var(--font-display);
+      color: #6692FF;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .yuki-gif-container {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .yuki-gif-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .yuki-close-btn {
+      font-family: var(--font-display);
+      background: #6692FF;
+      color: #080C14;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 900;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.2s ease;
+    }
+
+    .yuki-close-btn:hover {
+      background: #FFF;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    }
   </style>
 </head>
 <body>
@@ -801,15 +1046,30 @@
       </div>
     </div>
 
+    <!-- Live Countdown Widget -->
+    <div class="countdown-widget">
+      <div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFB800"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+      </div>
+      <div class="countdown-info">
+        <div class="event-name" id="nextRaceName">Next: Dutch GP (Zandvoort)</div>
+        <div class="event-timer" id="countdownTimer">Loading...</div>
+      </div>
+    </div>
+
     <!-- Header View Toggles -->
     <div class="header-actions">
-      <button class="top-action-btn active" id="topBtnShowcase" onclick="switchPage(activePageId === 'overview' ? 'mercedes' : activePageId)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3zm0 10h8v8H3zM13 3h8v8h-8zm0 10h8v8h-8z"/></svg>
+      <button class="top-action-btn active" id="topBtnShowcase" onclick="switchPage(activePageId === 'overview' || activePageId === 'h2h' ? 'mercedes' : activePageId)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3zm0 10h8v8H3zM13 3h8v8h-8zm0 10h8v8H8z"/></svg>
         Team Showcase
       </button>
       <button class="top-action-btn" id="topBtnTable" onclick="switchPage('overview')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v4h6V5zm8 0v4h6V5zm6 6h-6v4h6zm-8 0H5v4h6zm-6 6v4h6v-4zm8 0v4h6v-4z"/></svg>
         Standings Table
+      </button>
+      <button class="top-action-btn" id="topBtnH2H" onclick="switchPage('h2h')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        Driver H2H
       </button>
     </div>
   </header>
@@ -817,7 +1077,7 @@
   <!-- Sticky Glowing 11-Team Navbar -->
   <nav class="nav-container">
     <div class="team-navbar" id="teamNavbar">
-      <!-- Dynamic Navbar Tabs -->
+      <!-- Dynamic Navbar Tabs with FULL Team Names -->
     </div>
   </nav>
 
@@ -851,550 +1111,627 @@
       </div>
     </section>
 
+    <!-- Driver Head-to-Head Comparison Page -->
+    <section class="h2h-page" id="page-h2h">
+      <div class="h2h-card">
+        <div style="margin-bottom: 24px;">
+          <h2 style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 900; text-transform: uppercase; color: #FFF;">2026 Driver Head-to-Head Telemetry</h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Compare career statistics, 2026 season points, race wins, and championship standings between any two drivers</p>
+        </div>
+
+        <div class="h2h-selectors">
+          <div class="h2h-select-group">
+            <label>Select Driver 1</label>
+            <select class="h2h-select" id="driver1Select" onchange="updateH2H()"></select>
+          </div>
+          <div class="h2h-select-group">
+            <label>Select Driver 2</label>
+            <select class="h2h-select" id="driver2Select" onchange="updateH2H()"></select>
+          </div>
+        </div>
+
+        <div id="h2hComparisonContainer">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </div>
+    </section>
+
     <!-- Individual Team Pages Injected via JavaScript -->
     <div id="individualTeamPages"></div>
   </main>
 
+  <!-- Yuki My Beloved Easter Egg Modal -->
+  <div id="yukiModal" onclick="closeYukiModal(event)">
+    <div class="yuki-content-box" onclick="event.stopPropagation()">
+      <h2>🌸 Yuki My Beloved 🌸</h2>
+      <div class="yuki-gif-container">
+        <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMWN2bXZmOW85Zm9zZDRtbWJjNHU2OG93ZzRuYTF0ZXR0aXNucjN5byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/oVbA9B2lHlQf1VdZqS/giphy.gif" alt="Yuki My Beloved">
+      </div>
+      <button class="yuki-close-btn" onclick="closeYukiModal()">Close</button>
+    </div>
+  </div>
+
   <script>
     // Official 2026 Standings as of the Hungarian GP (Round 11, July 26, 2026)
     const f1Teams = [
-  {
-    "id": "mercedes",
-    "name": "Mercedes-AMG PETRONAS F1 Team",
-    "shortName": "MER",
-    "countryFlag": "\ud83c\udde9\ud83c\uddea Germany",
-    "engineBadge": "Mercedes Works 2026",
-    "color": "#27F4D2",
-    "rgb": "39, 244, 210",
-    "standing": 1,
-    "standingTitle": "2026 CONSTRUCTOR LEADER",
-    "seasonPoints": 379,
-    "historicalPoints": 7761.0,
-    "teamTitles": 8,
-    "teamWins": 136,
-    "car": "Mercedes-AMG W17",
-    "carDetails": "Mercedes-AMG M17 High Performance Turbo Hybrid",
-    "principal": "Toto Wolff",
-    "principalRole": "CEO & Team Principal",
-    "base": "Brackley, Northamptonshire, United Kingdom",
-    "drivers": [
       {
-        "number": 12,
-        "forename": "ANDREA KIMI",
-        "surname": "ANTONELLI",
-        "codeMeta": "IT ITA \u2022 Permanent Car #12 \u2022 2026 Driver",
-        "standingChip": "P1 \u2022 219 PTS",
-        "raceEngineer": "Peter Bonnington (Bono)",
-        "radioQuote": "\u201cIncredible drive Kimi! P1 in the World Championship. Keep this momentum into the summer break.\u201d",
-        "wdcTitles": 0,
-        "wins": 6,
-        "podiums": 9,
-        "seasonPoints": 219
+        "id": "mercedes",
+        "name": "Mercedes-AMG PETRONAS Formula One Team",
+        "shortName": "Mercedes-AMG",
+        "countryFlag": "🇩🇪 Germany",
+        "engineBadge": "Mercedes Works 2026",
+        "color": "#27F4D2",
+        "rgb": "39, 244, 210",
+        "standing": 1,
+        "standingTitle": "2026 CONSTRUCTOR LEADER",
+        "seasonPoints": 379,
+        "historicalPoints": 7761.0,
+        "teamTitles": 8,
+        "teamWins": 136,
+        "car": "Mercedes-AMG W17",
+        "carDetails": "Mercedes-AMG M17 High Performance Turbo Hybrid",
+        "principal": "Toto Wolff",
+        "principalRole": "CEO & Team Principal",
+        "base": "Brackley, Northamptonshire, United Kingdom",
+        "drivers": [
+          {
+            "number": 12,
+            "forename": "ANDREA KIMI",
+            "surname": "ANTONELLI",
+            "codeMeta": "IT ITA • Permanent Car #12 • 2026 Driver",
+            "standingChip": "P1 • 219 PTS",
+            "raceEngineer": "Peter Bonnington (Bono)",
+            "radioQuote": "“Incredible drive Kimi! P1 in the World Championship. Keep this momentum into the summer break.”",
+            "wdcTitles": 0,
+            "wins": 6,
+            "podiums": 9,
+            "seasonPoints": 219
+          },
+          {
+            "number": 63,
+            "forename": "GEORGE",
+            "surname": "RUSSELL",
+            "codeMeta": "GB GBR • Permanent Car #63 • 2026 Driver",
+            "standingChip": "P3 • 160 PTS",
+            "raceEngineer": "Marcus Dudley",
+            "radioQuote": "“George, solid points in Hungary. P3 in the championship, great team execution.”",
+            "wdcTitles": 0,
+            "wins": 2,
+            "podiums": 5,
+            "seasonPoints": 160
+          }
+        ]
       },
       {
-        "number": 63,
-        "forename": "GEORGE",
-        "surname": "RUSSELL",
-        "codeMeta": "GB GBR \u2022 Permanent Car #63 \u2022 2026 Driver",
-        "standingChip": "P3 \u2022 160 PTS",
-        "raceEngineer": "Marcus Dudley",
-        "radioQuote": "\u201cGeorge, solid points in Hungary. P3 in the championship, great team execution.\u201d",
-        "wdcTitles": 0,
-        "wins": 2,
-        "podiums": 5,
-        "seasonPoints": 160
-      }
-    ]
-  },
-  {
-    "id": "ferrari",
-    "name": "Scuderia Ferrari HP",
-    "shortName": "FER",
-    "countryFlag": "\ud83c\uddee\ud83c\uddf9 Italy",
-    "engineBadge": "Ferrari 067/1 Works",
-    "color": "#E8002D",
-    "rgb": "232, 0, 45",
-    "standing": 2,
-    "standingTitle": "2026 TITLE CONTENDER",
-    "seasonPoints": 307,
-    "historicalPoints": 11099.5,
-    "teamTitles": 16,
-    "teamWins": 250,
-    "car": "Ferrari SF-26",
-    "carDetails": "Ferrari 067/1 Works Hybrid (350kW MGU-K + Active Aero)",
-    "principal": "Fr\u00e9d\u00e9ric Vasseur",
-    "principalRole": "Scuderia General Management",
-    "base": "Maranello, Emilia-Romagna, Italy",
-    "drivers": [
-      {
-        "number": 44,
-        "forename": "LEWIS",
-        "surname": "HAMILTON",
-        "codeMeta": "GB GBR \u2022 Permanent Car #44 \u2022 2026 Driver",
-        "standingChip": "P2 \u2022 169 PTS",
-        "raceEngineer": "Carlo Santi",
-        "radioQuote": "\u201cP2 in the Drivers' Championship, Lewis. Solid recovery in Budapest, great execution.\u201d",
-        "wdcTitles": 7,
-        "wins": 106,
-        "podiums": 206,
-        "seasonPoints": 169
+        "id": "ferrari",
+        "name": "Scuderia Ferrari HP",
+        "shortName": "Scuderia Ferrari",
+        "countryFlag": "🇮🇹 Italy",
+        "engineBadge": "Ferrari 067/1 Works",
+        "color": "#E8002D",
+        "rgb": "232, 0, 45",
+        "standing": 2,
+        "standingTitle": "2026 TITLE CONTENDER",
+        "seasonPoints": 307,
+        "historicalPoints": 11099.5,
+        "teamTitles": 16,
+        "teamWins": 250,
+        "car": "Ferrari SF-26",
+        "carDetails": "Ferrari 067/1 Works Hybrid (350kW MGU-K + Active Aero)",
+        "principal": "Frédéric Vasseur",
+        "principalRole": "Scuderia General Management",
+        "base": "Maranello, Emilia-Romagna, Italy",
+        "drivers": [
+          {
+            "number": 44,
+            "forename": "LEWIS",
+            "surname": "HAMILTON",
+            "codeMeta": "GB GBR • Permanent Car #44 • 2026 Driver",
+            "standingChip": "P2 • 169 PTS",
+            "raceEngineer": "Carlo Santi",
+            "radioQuote": "“P2 in the Drivers' Championship, Lewis. Solid recovery in Budapest, great execution.”",
+            "wdcTitles": 7,
+            "wins": 106,
+            "podiums": 206,
+            "seasonPoints": 169
+          },
+          {
+            "number": 16,
+            "forename": "CHARLES",
+            "surname": "LECLERC",
+            "codeMeta": "MC MON • Permanent Car #16 • 2026 Driver",
+            "standingChip": "P4 • 138 PTS",
+            "raceEngineer": "Bryan Bozzi",
+            "radioQuote": "“Charles, P4 finish confirmed. Energy harvest delta was strong in sector 3.”",
+            "wdcTitles": 0,
+            "wins": 9,
+            "podiums": 47,
+            "seasonPoints": 138
+          }
+        ]
       },
       {
-        "number": 16,
-        "forename": "CHARLES",
-        "surname": "LECLERC",
-        "codeMeta": "MC MON \u2022 Permanent Car #16 \u2022 2026 Driver",
-        "standingChip": "P4 \u2022 138 PTS",
-        "raceEngineer": "Bryan Bozzi",
-        "radioQuote": "\u201cCharles, P4 finish confirmed. Energy harvest delta was strong in sector 3.\u201d",
-        "wdcTitles": 0,
-        "wins": 9,
-        "podiums": 47,
-        "seasonPoints": 138
-      }
-    ]
-  },
-  {
-    "id": "mclaren",
-    "name": "McLaren Formula 1 Team",
-    "shortName": "MCL",
-    "countryFlag": "\ud83c\uddec\ud83c\udde7 UK",
-    "engineBadge": "Mercedes M17",
-    "color": "#FF8000",
-    "rgb": "255, 128, 0",
-    "standing": 3,
-    "standingTitle": "2026 RACE WINNER",
-    "seasonPoints": 220,
-    "historicalPoints": 6788.5,
-    "teamTitles": 9,
-    "teamWins": 189,
-    "car": "McLaren MCL40",
-    "carDetails": "Mercedes-AMG M17 1.6L V6 Turbo Hybrid",
-    "principal": "Andrea Stella",
-    "principalRole": "Team Principal & Racing Operations",
-    "base": "Woking, Surrey, United Kingdom",
-    "drivers": [
-      {
-        "number": 1,
-        "forename": "LANDO",
-        "surname": "NORRIS",
-        "codeMeta": "GB GBR \u2022 Permanent Car #1 \u2022 2026 World Champion",
-        "standingChip": "P5 \u2022 128 PTS",
-        "raceEngineer": "Will Joseph",
-        "radioQuote": "\u201cVICTORY AT THE HUNGARORING! Magnificent drive Lando, back on the top step!\u201d",
-        "wdcTitles": 1,
-        "wins": 5,
-        "podiums": 31,
-        "seasonPoints": 128
+        "id": "mclaren",
+        "name": "McLaren Formula 1 Team",
+        "shortName": "McLaren F1",
+        "countryFlag": "🇬🇧 UK",
+        "engineBadge": "Mercedes M17",
+        "color": "#FF8000",
+        "rgb": "255, 128, 0",
+        "standing": 3,
+        "standingTitle": "2026 RACE WINNER",
+        "seasonPoints": 220,
+        "historicalPoints": 6788.5,
+        "teamTitles": 9,
+        "teamWins": 189,
+        "car": "McLaren MCL40",
+        "carDetails": "Mercedes-AMG M17 1.6L V6 Turbo Hybrid",
+        "principal": "Andrea Stella",
+        "principalRole": "Team Principal & Racing Operations",
+        "base": "Woking, Surrey, United Kingdom",
+        "drivers": [
+          {
+            "number": 1,
+            "forename": "LANDO",
+            "surname": "NORRIS",
+            "codeMeta": "GB GBR • Permanent Car #1 • 2026 World Champion",
+            "standingChip": "P5 • 128 PTS",
+            "raceEngineer": "Will Joseph",
+            "radioQuote": "“VICTORY AT THE HUNGARORING! Magnificent drive Lando, back on the top step!”",
+            "wdcTitles": 1,
+            "wins": 5,
+            "podiums": 31,
+            "seasonPoints": 128
+          },
+          {
+            "number": 81,
+            "forename": "OSCAR",
+            "surname": "PIASTRI",
+            "codeMeta": "AU AUS • Permanent Car #81 • 2026 Driver",
+            "standingChip": "P7 • 92 PTS",
+            "raceEngineer": "Tom Stallard",
+            "radioQuote": "“Tough break with the DNF in Hungary Oscar, pace was leading the race early on.”",
+            "wdcTitles": 0,
+            "wins": 2,
+            "podiums": 12,
+            "seasonPoints": 92
+          }
+        ]
       },
       {
-        "number": 81,
-        "forename": "OSCAR",
-        "surname": "PIASTRI",
-        "codeMeta": "AU AUS \u2022 Permanent Car #81 \u2022 2026 Driver",
-        "standingChip": "P7 \u2022 92 PTS",
-        "raceEngineer": "Tom Stallard",
-        "radioQuote": "\u201cTough break with the DNF in Hungary Oscar, pace was leading the race early on.\u201d",
-        "wdcTitles": 0,
-        "wins": 2,
-        "podiums": 12,
-        "seasonPoints": 92
-      }
-    ]
-  },
-  {
-    "id": "redbull",
-    "name": "Oracle Red Bull Racing",
-    "shortName": "RBR",
-    "countryFlag": "\ud83c\udde6\ud83c\uddf9 Austria",
-    "engineBadge": "Ford RBPT 2026",
-    "color": "#3671C6",
-    "rgb": "54, 113, 198",
-    "standing": 4,
-    "standingTitle": "2026 PODIUM REGULAR",
-    "seasonPoints": 177,
-    "historicalPoints": 7813.0,
-    "teamTitles": 6,
-    "teamWins": 122,
-    "car": "Red Bull RB22",
-    "carDetails": "Red Bull Ford Powertrains Turbo Hybrid",
-    "principal": "Laurent Mekies",
-    "principalRole": "CEO & Team Principal",
-    "base": "Milton Keynes, Buckinghamshire, UK",
-    "drivers": [
-      {
-        "number": 3,
-        "forename": "MAX",
-        "surname": "VERSTAPPEN",
-        "codeMeta": "NL NLD \u2022 Permanent Car #3 \u2022 2026 Driver",
-        "standingChip": "P6 \u2022 109 PTS",
-        "raceEngineer": "Gianpiero Lambiase (GP)",
-        "radioQuote": "\u201cP2 in Hungary Max! Great recovery drive and maximum points haul today.\u201d",
-        "wdcTitles": 4,
-        "wins": 63,
-        "podiums": 115,
-        "seasonPoints": 109
+        "id": "redbull",
+        name: "Oracle Red Bull Racing",
+        shortName: "Red Bull Racing",
+        countryFlag: "🇦🇹 Austria",
+        "engineBadge": "Ford RBPT 2026",
+        "color": "#3671C6",
+        "rgb": "54, 113, 198",
+        "standing": 4,
+        "standingTitle": "2026 PODIUM REGULAR",
+        "seasonPoints": 177,
+        "historicalPoints": 7813.0,
+        "teamTitles": 6,
+        "teamWins": 122,
+        "car": "Red Bull RB22",
+        "carDetails": "Red Bull Ford Powertrains Turbo Hybrid",
+        "principal": "Laurent Mekies",
+        "principalRole": "CEO & Team Principal",
+        base: "Milton Keynes, Buckinghamshire, UK",
+        drivers": [
+          {
+            "number": 3,
+            "forename": "MAX",
+            "surname": "VERSTAPPEN",
+            "codeMeta": "NL NLD • Permanent Car #3 • 2026 Driver",
+            "standingChip": "P6 • 109 PTS",
+            "raceEngineer": "Gianpiero Lambiase (GP)",
+            "radioQuote": "“P2 in Hungary Max! Great recovery drive and maximum points haul today.”",
+            "wdcTitles": 4,
+            "wins": 63,
+            "podiums": 115,
+            "seasonPoints": 109
+          },
+          {
+            "number": 6,
+            "forename": "ISACK",
+            "surname": "HADJAR",
+            "codeMeta": "FR FRA • Permanent Car #6 • 2026 Driver",
+            "standingChip": "P8 • 68 PTS",
+            "raceEngineer": "Richard Wood (Woody)",
+            "radioQuote": "“P6 in Hungary Isack, really consistent pace across both stints.”",
+            "wdcTitles": 0,
+            "wins": 0,
+            "podiums": 0,
+            "seasonPoints": 68
+          }
+        ]
       },
       {
-        "number": 6,
-        "forename": "ISACK",
-        "surname": "HADJAR",
-        "codeMeta": "FR FRA \u2022 Permanent Car #6 \u2022 2026 Driver",
-        "standingChip": "P8 \u2022 68 PTS",
-        "raceEngineer": "Richard Wood (Woody)",
-        "radioQuote": "\u201cP6 in Hungary Isack, really consistent pace across both stints.\u201d",
-        "wdcTitles": 0,
-        "wins": 0,
-        "podiums": 0,
-        "seasonPoints": 68
-      }
-    ]
-  },
-  {
-    "id": "racingbulls",
-    "name": "Visa Cash App RB F1 Team",
-    "shortName": "VCARB",
-    "countryFlag": "\ud83c\uddee\ud83c\uddf9 Italy",
-    "engineBadge": "Ford RBPT 2026",
-    "color": "#6692FF",
-    "rgb": "102, 146, 255",
-    "standing": 5,
-    "standingTitle": "2026 BEST OF MIDFIELD",
-    "seasonPoints": 66,
-    "historicalPoints": 970.0,
-    "teamTitles": 0,
-    "teamWins": 2,
-    "car": "VCARB 03",
-    "carDetails": "Red Bull Ford Powertrains Turbo Hybrid",
-    "principal": "Alan Permane",
-    "principalRole": "Team Principal",
-    "base": "Faenza, Ravenna, Italy",
-    "drivers": [
-      {
-        "number": 30,
-        "forename": "LIAM",
-        "surname": "LAWSON",
-        "codeMeta": "NZ NZL \u2022 Permanent Car #30 \u2022 2026 Driver",
-        "standingChip": "P9 \u2022 43 PTS",
-        "raceEngineer": "Alexandre Iliopoulos",
-        "radioQuote": "\u201cP8 finish Liam, great points in Hungary. Fastest pit stop of the race too!\u201d",
-        "wdcTitles": 0,
-        "wins": 0,
-        "podiums": 0,
-        "seasonPoints": 43
+        "id": "racingbulls",
+        name: "Visa Cash App RB Formula One Team",
+        shortName: "Visa Cash App RB",
+        countryFlag: "🇮🇹 Italy",
+        "engineBadge": "Ford RBPT 2026",
+        "color": "#6692FF",
+        "rgb": "102, 146, 255",
+        "standing": 5,
+        "standingTitle": "2026 BEST OF MIDFIELD",
+        "seasonPoints": 66,
+        "historicalPoints": 970.0,
+        "teamTitles": 0,
+        "teamWins": 2,
+        "car": "VCARB 03",
+        "carDetails": "Red Bull Ford Powertrains Turbo Hybrid",
+        "principal": "Alan Permane",
+        "principalRole": "Team Principal",
+        base: "Faenza, Ravenna, Italy",
+        drivers": [
+          {
+            "number": 30,
+            "forename": "LIAM",
+            "surname": "LAWSON",
+            "codeMeta": "NZ NZL • Permanent Car #30 • 2026 Driver",
+            "standingChip": "P9 • 43 PTS",
+            "raceEngineer": "Alexandre Iliopoulos",
+            "radioQuote": "“P8 finish Liam, great points in Hungary. Fastest pit stop of the race too!”",
+            "wdcTitles": 0,
+            "wins": 0,
+            "podiums": 0,
+            "seasonPoints": 43
+          },
+          {
+            "number": 41,
+            "forename": "ARVID",
+            "surname": "LINDBLAD",
+            "codeMeta": "GB GBR • Permanent Car #41 • 2026 Rookie",
+            "standingChip": "P11 • 23 PTS",
+            "raceEngineer": "Pierre Hamelin",
+            "radioQuote": "“P10 Arvid! Another point in your rookie season, fantastic race craft.”",
+            "wdcTitles": 0,
+            "wins": 0,
+            "podiums": 0,
+            "seasonPoints": 23
+          }
+        ]
       },
       {
-        "number": 41,
-        "forename": "ARVID",
-        "surname": "LINDBLAD",
-        "codeMeta": "GB GBR \u2022 Permanent Car #41 \u2022 2026 Rookie",
-        "standingChip": "P11 \u2022 23 PTS",
-        "raceEngineer": "Pierre Hamelin",
-        "radioQuote": "\u201cP10 Arvid! Another point in your rookie season, fantastic race craft.\u201d",
-        "wdcTitles": 0,
-        "wins": 0,
-        "podiums": 0,
-        "seasonPoints": 23
-      }
-    ]
-  },
-  {
-    "id": "alpine",
-    "name": "BWT Alpine F1 Team",
-    "shortName": "ALP",
-    "countryFlag": "\ud83c\uddeb\ud83c\uddf7 France",
-    "engineBadge": "Mercedes Customer",
-    "color": "#0093CC",
-    "rgb": "0, 147, 204",
-    "standing": 6,
-    "standingTitle": "2026 PODIUM SCORER",
-    "seasonPoints": 61,
-    "historicalPoints": 2061.0,
-    "teamTitles": 2,
-    "teamWins": 21,
-    "car": "Alpine A526",
-    "carDetails": "Mercedes-AMG Customer Power Unit",
-    "principal": "Oliver Oakes",
-    "principalRole": "Team Principal",
-    "base": "Enstone, Oxfordshire, United Kingdom",
-    "drivers": [
-      {
-        "number": 10,
-        "forename": "PIERRE",
-        "surname": "GASLY",
-        "codeMeta": "FR FRA \u2022 Permanent Car #10 \u2022 2026 Driver",
-        "standingChip": "P10 \u2022 42 PTS",
-        "raceEngineer": "Josh Peckett",
-        "radioQuote": "\u201cGood effort Pierre, Monaco podium remains our season highlight.\u201d",
-        "wdcTitles": 0,
-        "wins": 1,
-        "podiums": 6,
-        "seasonPoints": 42
+        "id": "alpine",
+        name: "BWT Alpine Formula One Team",
+        shortName: "Alpine F1",
+        countryFlag: "🇫🇷 France",
+        "engineBadge": "Mercedes Customer",
+        "color": "#0093CC",
+        "rgb": "0, 147, 204",
+        "standing": 6,
+        "standingTitle": "2026 PODIUM SCORER",
+        "seasonPoints": 61,
+        "historicalPoints": 2061.0,
+        "teamTitles": 2,
+        "teamWins": 21,
+        "car": "Alpine A526",
+        "carDetails": "Mercedes-AMG Customer Power Unit",
+        "principal": "Oliver Oakes",
+        "principalRole": "Team Principal",
+        base: "Enstone, Oxfordshire, United Kingdom",
+        drivers": [
+          {
+            "number": 10,
+            "forename": "PIERRE",
+            "surname": "GASLY",
+            "codeMeta": "FR FRA • Permanent Car #10 • 2026 Driver",
+            "standingChip": "P10 • 42 PTS",
+            "raceEngineer": "Josh Peckett",
+            "radioQuote": "“Good effort Pierre, Monaco podium remains our season highlight.”",
+            "wdcTitles": 0,
+            "wins": 1,
+            "podiums": 6,
+            "seasonPoints": 42
+          },
+          {
+            "number": 43,
+            "forename": "FRANCO",
+            "surname": "COLAPINTO",
+            "codeMeta": "AR ARG • Permanent Car #43 • 2026 Driver",
+            "standingChip": "P12 • 19 PTS",
+            "raceEngineer": "Stuart Barlow",
+            "radioQuote": "“P12 in the championship Franco, solid development progression.”",
+            "wdcTitles": 0,
+            "wins": 0,
+            "podiums": 0,
+            "seasonPoints": 19
+          }
+        ]
       },
       {
-        "number": 43,
-        "forename": "FRANCO",
-        "surname": "COLAPINTO",
-        "codeMeta": "AR ARG \u2022 Permanent Car #43 \u2022 2026 Driver",
-        "standingChip": "P12 \u2022 19 PTS",
-        "raceEngineer": "Stuart Barlow",
-        "radioQuote": "\u201cP12 in the championship Franco, solid development progression.\u201d",
-        "wdcTitles": 0,
-        "wins": 0,
-        "podiums": 0,
-        "seasonPoints": 19
-      }
-    ]
-  },
-  {
-    "id": "haas",
-    "name": "MoneyGram Haas F1 Team",
-    "shortName": "HAA",
-    "countryFlag": "\ud83c\uddfa\ud83c\uddf8 USA",
-    "engineBadge": "Ferrari 067 Customer",
-    "color": "#B6BABD",
-    "rgb": "182, 186, 189",
-    "standing": 7,
-    "standingTitle": "2026 POINTS SCORER",
-    "seasonPoints": 21,
-    "historicalPoints": 311.0,
-    "teamTitles": 0,
-    "teamWins": 0,
-    "car": "Haas VF-26",
-    "carDetails": "Ferrari 067 Customer Turbo Hybrid",
-    "principal": "Ayao Komatsu",
-    "principalRole": "Team Principal",
-    "base": "Kannapolis (US) & Banbury (UK)",
-    "drivers": [
-      {
-        "number": 87,
-        "forename": "OLIVER",
-        "surname": "BEARMAN",
-        "codeMeta": "GB GBR \u2022 Permanent Car #87 \u2022 2026 Driver",
-        "standingChip": "P13 \u2022 18 PTS",
-        "raceEngineer": "Ronan O'Hare",
-        "radioQuote": "\u201cKeep pushing Ollie, top-10 in Australia, China and Canada.\u201d",
-        "wdcTitles": 0,
-        "wins": 0,
-        "podiums": 0,
-        "seasonPoints": 18
+        "id": "haas",
+        name: "MoneyGram Haas F1 Team",
+        shortName: "Haas F1",
+        countryFlag: "🇺🇸 USA",
+        engineBadge: "Ferrari 067 Customer",
+        "color": "#B6BABD",
+        "rgb": "182, 186, 189",
+        "standing": 7,
+        "standingTitle": "2026 POINTS SCORER",
+        "seasonPoints": 21,
+        "historicalPoints": 311.0,
+        "teamTitles": 0,
+        "teamWins": 0,
+        "car": "Haas VF-26",
+        "carDetails": "Ferrari 067 Customer Turbo Hybrid",
+        "principal": "Ayao Komatsu",
+        "principalRole": "Team Principal",
+        base: "Kannapolis (US) & Banbury (UK)",
+        drivers": [
+          {
+            "number": 87,
+            "forename": "OLIVER",
+            "surname": "BEARMAN",
+            "codeMeta": "GB GBR • Permanent Car #87 • 2026 Driver",
+            "standingChip": "P13 • 18 PTS",
+            "raceEngineer": "Ronan O'Hare",
+            "radioQuote": "“Keep pushing Ollie, top-10 in Australia, China and Canada.”",
+            "wdcTitles": 0,
+            "wins": 0,
+            "podiums": 0,
+            "seasonPoints": 18
+          },
+          {
+            "number": 31,
+            "forename": "ESTEBAN",
+            "surname": "OCON",
+            "codeMeta": "FR FRA • Permanent Car #31 • 2026 Driver",
+            "standingChip": "P17 • 3 PTS",
+            "raceEngineer": "Laura Müller",
+            "radioQuote": "“Tire management was clean today Esteban. Points in Japan and Monaco.”",
+            "wdcTitles": 0,
+            "wins": 1,
+            "podiums": 4,
+            "seasonPoints": 3
+          }
+        ]
       },
       {
-        "number": 31,
-        "forename": "ESTEBAN",
-        "surname": "OCON",
-        "codeMeta": "FR FRA \u2022 Permanent Car #31 \u2022 2026 Driver",
-        "standingChip": "P17 \u2022 3 PTS",
-        "raceEngineer": "Laura M\u00fcller",
-        "radioQuote": "\u201cTire management was clean today Esteban. Points in Japan and Monaco.\u201d",
-        "wdcTitles": 0,
-        "wins": 1,
-        "podiums": 4,
-        "seasonPoints": 3
-      }
-    ]
-  },
-  {
-    "id": "audi",
-    "name": "Audi Revolut F1 Team",
-    "shortName": "AUD",
-    "countryFlag": "\ud83c\udde9\ud83c\uddea Germany",
-    "engineBadge": "Audi Works PU",
-    "color": "#E22028",
-    "rgb": "226, 32, 40",
-    "standing": 8,
-    "standingTitle": "2026 NEW WORKS ENTRANT",
-    "seasonPoints": 12,
-    "historicalPoints": 877.0,
-    "teamTitles": 0,
-    "teamWins": 1,
-    "car": "Audi R26",
-    "carDetails": "Audi Formula Racing Works 1.6L V6 Hybrid",
-    "principal": "Jonathan Wheatley & Mattia Binotto",
-    "principalRole": "Team Principal & Chief Operating Officer",
-    "base": "Neuburg an der Donau (Germany) & Hinwil (Switzerland)",
-    "drivers": [
-      {
-        "number": 5,
-        "forename": "GABRIEL",
-        "surname": "BORTOLETO",
-        "codeMeta": "BR BRA \u2022 Permanent Car #5 \u2022 2026 Driver",
-        "standingChip": "P14 \u2022 10 PTS",
-        "raceEngineer": "Jose Manuel L\u00f3pez",
-        "radioQuote": "\u201cGreat points in Australia, Silverstone and Spa Gabriel. Audi program progressing well.\u201d",
-        "wdcTitles": 0,
-        "wins": 0,
-        "podiums": 0,
-        "seasonPoints": 10
+        "id": "audi",
+        name: "Audi Revolut F1 Team",
+        shortName: "Audi F1",
+        countryFlag: "🇩🇪 Germany",
+        engineBadge: "Audi Works PU",
+        color: "#E22028",
+        rgb: "226, 32, 40",
+        "standing": 8,
+        "standingTitle": "2026 NEW WORKS ENTRANT",
+        "seasonPoints": 12,
+        "historicalPoints": 877.0,
+        "teamTitles": 0,
+        "teamWins": 1,
+        "car": "Audi R26",
+        "carDetails": "Audi Formula Racing Works 1.6L V6 Hybrid",
+        "principal": "Jonathan Wheatley & Mattia Binotto",
+        "principalRole": "Team Principal & Chief Operating Officer",
+        "base": "Neuburg an der Donau (Germany) & Hinwil (Switzerland)",
+        "drivers": [
+          {
+            "number": 5,
+            "forename": "GABRIEL",
+            "surname": "BORTOLETO",
+            "codeMeta": "BR BRA • Permanent Car #5 • 2026 Driver",
+            "standingChip": "P14 • 10 PTS",
+            "raceEngineer": "Jose Manuel López",
+            "radioQuote": "“Great points in Australia, Silverstone and Spa Gabriel. Audi program progressing well.”",
+            "wdcTitles": 0,
+            "wins": 0,
+            "podiums": 0,
+            "seasonPoints": 10
+          },
+          {
+            "number": 27,
+            "forename": "NICO",
+            "surname": "HULKENBERG",
+            "codeMeta": "DE DEU • Permanent Car #27 • 2026 Driver",
+            "standingChip": "P18 • 2 PTS",
+            "raceEngineer": "Steven Petrik",
+            "radioQuote": "“Points finish in Hungary Nico! P9 today, great job on strategy.”",
+            "wdcTitles": 0,
+            "wins": 0,
+            "podiums": 0,
+            "seasonPoints": 2
+          }
+        ]
       },
       {
-        "number": 27,
-        "forename": "NICO",
-        "surname": "HULKENBERG",
-        "codeMeta": "DE DEU \u2022 Permanent Car #27 \u2022 2026 Driver",
-        "standingChip": "P18 \u2022 2 PTS",
-        "raceEngineer": "Steven Petrik",
-        "radioQuote": "\u201cPoints finish in Hungary Nico! P9 today, great job on strategy.\u201d",
-        "wdcTitles": 0,
-        "wins": 0,
-        "podiums": 0,
-        "seasonPoints": 2
-      }
-    ]
-  },
-  {
-    "id": "williams",
-    "name": "Atlassian Williams Racing",
-    "shortName": "WIL",
-    "countryFlag": "\ud83c\uddec\ud83c\udde7 UK",
-    "engineBadge": "Mercedes M17",
-    "color": "#64C4FF",
-    "rgb": "100, 196, 255",
-    "standing": 9,
-    "standingTitle": "2026 COMPETITOR",
-    "seasonPoints": 11,
-    "historicalPoints": 3571.0,
-    "teamTitles": 9,
-    "teamWins": 114,
-    "car": "Williams FW48",
-    "carDetails": "Mercedes-AMG High Performance Powertrains",
-    "principal": "James Vowles",
-    "principalRole": "Team Principal",
-    "base": "Grove, Oxfordshire, United Kingdom",
-    "drivers": [
-      {
-        "number": 55,
-        "forename": "CARLOS",
-        "surname": "SAINZ",
-        "codeMeta": "ES ESP \u2022 Permanent Car #55 \u2022 2026 Driver",
-        "standingChip": "P15 \u2022 6 PTS",
-        "raceEngineer": "Ga\u00ebtan Jego",
-        "radioQuote": "\u201cCarlos, points in China, Miami and Canada. Let's target a strong second half.\u201d",
-        "wdcTitles": 0,
-        "wins": 4,
-        "podiums": 25,
-        "seasonPoints": 6
+        id: "williams",
+        name: "Atlassian Williams Racing",
+        shortName: "Williams Racing",
+        countryFlag: "🇬🇧 UK",
+        engineBadge: "Mercedes M17",
+        color: "#64C4FF",
+        rgb: "100, 196, 255",
+        "standing": 9,
+        "standingTitle": "2026 COMPETITOR",
+        "seasonPoints": 11,
+        "historicalPoints": 3571.0,
+        "teamTitles": 9,
+        "teamWins": 114,
+        "car": "Williams FW48",
+        "carDetails": "Mercedes-AMG High Performance Powertrains",
+        "principal": "James Vowles",
+        "principalRole": "Team Principal",
+        "base": "Grove, Oxfordshire, United Kingdom",
+        "drivers": [
+          {
+            "number": 55,
+            "forename": "CARLOS",
+            "surname": "SAINZ",
+            "codeMeta": "ES ESP • Permanent Car #55 • 2026 Driver",
+            "standingChip": "P15 • 6 PTS",
+            "raceEngineer": "Gaëtan Jego",
+            "radioQuote": "“Carlos, points in China, Miami and Canada. Let's target a strong second half.”",
+            "wdcTitles": 0,
+            "wins": 4,
+            "podiums": 25,
+            "seasonPoints": 6
+          },
+          {
+            "number": 23,
+            "forename": "ALEXANDER",
+            "surname": "ALBON",
+            "codeMeta": "TH THA • Permanent Car #23 • 2026 Driver",
+            "standingChip": "P16 • 5 PTS",
+            "raceEngineer": "James Urwin",
+            "radioQuote": "“Points in Miami and Monaco Alex, balance is improving on medium speed tracks.”",
+            "wdcTitles": 0,
+            "wins": 0,
+            "podiums": 2,
+            "seasonPoints": 5
+          }
+        ]
       },
       {
-        "number": 23,
-        "forename": "ALEXANDER",
-        "surname": "ALBON",
-        "codeMeta": "TH THA \u2022 Permanent Car #23 \u2022 2026 Driver",
-        "standingChip": "P16 \u2022 5 PTS",
-        "raceEngineer": "James Urwin",
-        "radioQuote": "\u201cPoints in Miami and Monaco Alex, balance is improving on medium speed tracks.\u201d",
-        "wdcTitles": 0,
-        "wins": 0,
-        "podiums": 2,
-        "seasonPoints": 5
-      }
-    ]
-  },
-  {
-    "id": "astonmartin",
-    "name": "Aston Martin Aramco F1 Team",
-    "shortName": "AST",
-    "countryFlag": "\ud83c\uddec\ud83c\udde7 UK",
-    "engineBadge": "Honda Works 2026",
-    "color": "#229971",
-    "rgb": "34, 153, 113",
-    "standing": 10,
-    "standingTitle": "2026 HONDA WORKS PROJECT",
-    "seasonPoints": 1,
-    "historicalPoints": 1069.0,
-    "teamTitles": 0,
-    "teamWins": 1,
-    "car": "Aston Martin AMR26",
-    "carDetails": "Honda Racing Corporation HRC-26 Works Hybrid",
-    "principal": "Adrian Newey & Mike Krack",
-    "principalRole": "Managing Technical Partner & Team Principal",
-    "base": "Silverstone, Northamptonshire, UK",
-    "drivers": [
-      {
-        "number": 14,
-        "forename": "FERNANDO",
-        "surname": "ALONSO",
-        "codeMeta": "ES ESP \u2022 Permanent Car #14 \u2022 2026 Driver",
-        "standingChip": "P19 \u2022 1 PT",
-        "raceEngineer": "Andrew Vizard",
-        "radioQuote": "\u201cPoint on the board in Monaco Fernando. Honda PU telemetry is building data.\u201d",
-        "wdcTitles": 2,
-        "wins": 32,
-        "podiums": 106,
-        "seasonPoints": 1
+        id: "astonmartin",
+        name: "Aston Martin Aramco Formula One Team",
+        shortName: "Aston Martin Aramco",
+        countryFlag: "🇬🇧 UK",
+        engineBadge: "Honda Works 2026",
+        color: "#229971",
+        rgb: "34, 153, 113",
+        "standing": 10,
+        "standingTitle": "2026 HONDA WORKS PROJECT",
+        "seasonPoints": 1,
+        "historicalPoints": 1069.0,
+        "teamTitles": 0,
+        "teamWins": 1,
+        "car": "Aston Martin AMR26",
+        carDetails: "Honda Racing Corporation HRC-26 Works Hybrid",
+        "principal": "Adrian Newey & Mike Krack",
+        "principalRole": "Managing Technical Partner & Team Principal",
+        base: "Silverstone, Northamptonshire, UK",
+        "drivers": [
+          {
+            "number": 14,
+            "forename": "FERNANDO",
+            "surname": "ALONSO",
+            "codeMeta": "ES ESP • Permanent Car #14 • 2026 Driver",
+            "standingChip": "P19 • 1 PT",
+            "raceEngineer": "Andrew Vizard",
+            "radioQuote": "“Point on the board in Monaco Fernando. Honda PU telemetry is building data.”",
+            "wdcTitles": 2,
+            wins: 32,
+            podiums: 106,
+            seasonPoints: 1
+          },
+          {
+            "number": 18,
+            "forename": "LANCE",
+            "surname": "STROLL",
+            "codeMeta": "CA CAN • Permanent Car #18 • 2026 Driver",
+            "standingChip": "P20 • 0 PTS",
+            "raceEngineer": "Gary Gannon",
+            "radioQuote": "“P13 in Hungary Lance, better balance on the hard compound.”",
+            "wdcTitles": 0,
+            "wins": 0,
+            "podiums": 3,
+            "seasonPoints": 0
+          }
+        ]
       },
       {
-        "number": 18,
-        "forename": "LANCE",
-        "surname": "STROLL",
-        "codeMeta": "CA CAN \u2022 Permanent Car #18 \u2022 2026 Driver",
-        "standingChip": "P20 \u2022 0 PTS",
-        "raceEngineer": "Gary Gannon",
-        "radioQuote": "\u201cP13 in Hungary Lance, better balance on the hard compound.\u201d",
-        "wdcTitles": 0,
-        "wins": 0,
-        "podiums": 3,
-        "seasonPoints": 0
+        id: "cadillac",
+        name: "Cadillac Formula 1 Team",
+        shortName: "Cadillac F1 Team",
+        countryFlag: "🇺🇸 USA",
+        engineBadge: "Ferrari Customer PU",
+        color: "#C5A059",
+        rgb: "197, 160, 89",
+        "standing": 11,
+        "standingTitle": "2026 INAUGURAL SEASON",
+        "seasonPoints": 0,
+        "historicalPoints": 0.0,
+        "teamTitles": 0,
+        "teamWins": 0,
+        "car": "Cadillac MAC-26",
+        carDetails: "Ferrari Customer Hybrid (GM Factory Powertrain 2028)",
+        principal: "Graeme Lowdon",
+        principalRole: "Team Principal",
+        base: "Fishers (Indiana, USA) & Silverstone (UK)",
+        "drivers": [
+          {
+            "number": 77,
+            "forename": "VALTTERI",
+            "surname": "BOTTAS",
+            "codeMeta": "FI FIN • Permanent Car #77 • 2026 Driver",
+            "standingChip": "P21 • 0 PTS",
+            "raceEngineer": "John Howard",
+            "radioQuote": "“Valtteri, P13 in China was our season best. Data correlation looking positive.”",
+            "wdcTitles": 0,
+            "wins": 10,
+            "podiums": 67,
+            "seasonPoints": 0
+          },
+          {
+            "number": 11,
+            forename: "SERGIO",
+            surname: "PEREZ",
+            codeMeta: "MX MEX • Permanent Car #11 • 2026 Driver",
+            standingChip: "P22 • 0 PTS",
+            "raceEngineer": "Carlo Pasetti",
+            "radioQuote": "“Checo, solid running in Spain and Austria. Building baseline for the new package.”",
+            "wdcTitles": 0,
+            "wins": 6,
+            "podiums": 39,
+            seasonPoints: 0
+          }
+        ]
       }
-    ]
-  },
-  {
-    "id": "cadillac",
-    "name": "Cadillac Formula 1 Team",
-    "shortName": "CAD",
-    "countryFlag": "\ud83c\uddfa\ud83c\uddf8 USA",
-    "engineBadge": "Ferrari Customer PU",
-    "color": "#C5A059",
-    "rgb": "197, 160, 89",
-    "standing": 11,
-    "standingTitle": "2026 INAUGURAL SEASON",
-    "seasonPoints": 0,
-    "historicalPoints": 0.0,
-    "teamTitles": 0,
-    "teamWins": 0,
-    "car": "Cadillac MAC-26",
-    "carDetails": "Ferrari Customer Hybrid (GM Factory Powertrain 2028)",
-    "principal": "Graeme Lowdon",
-    "principalRole": "Team Principal",
-    "base": "Fishers (Indiana, USA) & Silverstone (UK)",
-    "drivers": [
-      {
-        "number": 77,
-        "forename": "VALTTERI",
-        "surname": "BOTTAS",
-        "codeMeta": "FI FIN \u2022 Permanent Car #77 \u2022 2026 Driver",
-        "standingChip": "P21 \u2022 0 PTS",
-        "raceEngineer": "John Howard",
-        "radioQuote": "\u201cValtteri, P13 in China was our season best. Data correlation looking positive.\u201d",
-        "wdcTitles": 0,
-        "wins": 10,
-        "podiums": 67,
-        "seasonPoints": 0
-      },
-      {
-        "number": 11,
-        "forename": "SERGIO",
-        "surname": "PEREZ",
-        "codeMeta": "MX MEX \u2022 Permanent Car #11 \u2022 2026 Driver",
-        "standingChip": "P22 \u2022 0 PTS",
-        "raceEngineer": "Carlo Pasetti",
-        "radioQuote": "\u201cCheco, solid running in Spain and Austria. Building baseline for the new package.\u201d",
-        "wdcTitles": 0,
-        "wins": 6,
-        "podiums": 39,
-        "seasonPoints": 0
-      }
-    ]
-  }
-];
+    ];
 
     let activePageId = "mercedes";
+    let hadjarClickCount = 0;
 
-    // Build the Top Navigation Bar
+    // Flatten drivers list for H2H comparison
+    let allDrivers = [];
+    f1Teams.forEach(team => {
+      team.drivers.forEach(driver => {
+        allDrivers.push({
+          ...driver,
+          teamName: team.name,
+          teamColor: team.color,
+          teamRgb: team.rgb
+        });
+      });
+    });
+
+    // Build the Top Navigation Bar with FULL Team Names
     function buildNavbar() {
       const nav = document.getElementById("teamNavbar");
       nav.innerHTML = "";
 
+      // Overview Tab
+      const overviewBtn = document.createElement("button");
+      overviewBtn.className = "nav-tab-btn";
+      overviewBtn.id = "btn-nav-overview";
+      overviewBtn.style.setProperty("--team-color", "#E10600");
+      overviewBtn.style.setProperty("--team-rgb", "225, 6, 0");
+      overviewBtn.onclick = () => switchPage("overview");
+      overviewBtn.innerHTML = `
+        <span class="nav-pos-box" style="background: rgba(255,255,255,0.15)">📊</span>
+        <span>All Standings</span>
+      `;
+      nav.appendChild(overviewBtn);
+
+      // Head-to-Head Tab
+      const h2hBtn = document.createElement("button");
+      h2hBtn.className = "nav-tab-btn";
+      h2hBtn.id = "btn-nav-h2h";
+      h2hBtn.style.setProperty("--team-color", "#FFB800");
+      h2hBtn.style.setProperty("--team-rgb", "255, 184, 0");
+      h2hBtn.onclick = () => switchPage("h2h");
+      h2hBtn.innerHTML = `
+        <span class="nav-pos-box" style="background: rgba(255,184,0,0.2); color:#FFB800;">⚔️</span>
+        <span>Driver H2H</span>
+      `;
+      nav.appendChild(h2hBtn);
+
+      // 11 Team Tabs
       f1Teams.forEach((team) => {
         const btn = document.createElement("button");
         btn.className = "nav-tab-btn";
@@ -1406,7 +1743,7 @@
         btn.innerHTML = `
           <span class="nav-pos-box">P${team.standing}</span>
           <span class="nav-dot"></span>
-          <span>${team.shortName}</span>
+          <span>${team.name}</span>
           <span class="nav-pts-tag">${team.seasonPoints} PTS</span>
         `;
         nav.appendChild(btn);
@@ -1428,7 +1765,12 @@
         const prevTeam = f1Teams[(index - 1 + f1Teams.length) % f1Teams.length];
         const nextTeam = f1Teams[(index + 1) % f1Teams.length];
 
-        const driversHtml = team.drivers.map(d => `
+        const driversHtml = team.drivers.map(d => {
+          const isHadjar = d.surname === "HADJAR";
+          const clickHandler = isHadjar ? 'onclick="handleHadjarClick()"' : '';
+          const titleHint = isHadjar ? 'title="Click 5 times!"' : '';
+
+          return `
           <div class="driver-card">
             <!-- Large Watermark Number -->
             <div class="driver-watermark-num">#${d.number}</div>
@@ -1436,7 +1778,7 @@
             <div class="driver-top-row">
               <div>
                 <div class="driver-forename">${d.forename}</div>
-                <div class="driver-surname">${d.surname}</div>
+                <div class="driver-surname" ${clickHandler} ${titleHint}>${d.surname}</div>
                 <div class="driver-code-meta">${d.codeMeta}</div>
               </div>
               <div class="driver-rank-chip">${d.standingChip}</div>
@@ -1478,7 +1820,8 @@
               </div>
             </div>
           </div>
-        `).join("");
+        `;
+        }).join("");
 
         page.innerHTML = `
           <!-- Ambient Glow Backdrop -->
@@ -1565,13 +1908,13 @@
           <!-- Bottom Nav Footer -->
           <div class="page-footer-nav">
             <button class="footer-nav-btn" onclick="switchPage('${prevTeam.id}')">
-              ← P${prevTeam.standing} ${prevTeam.shortName}
+              ← P${prevTeam.standing} ${prevTeam.name}
             </button>
             <button class="footer-nav-btn" onclick="switchPage('overview')">
               📊 Full Standings Table
             </button>
             <button class="footer-nav-btn" onclick="switchPage('${nextTeam.id}')">
-              P${nextTeam.standing} ${nextTeam.shortName} →
+              P${nextTeam.standing} ${nextTeam.name} →
             </button>
           </div>
         `;
@@ -1608,19 +1951,173 @@
       });
     }
 
-    // Switch View / Team Portal
+    // Initialize H2H Select Dropdowns
+    function initH2HSelectors() {
+      const select1 = document.getElementById("driver1Select");
+      const select2 = document.getElementById("driver2Select");
+      select1.innerHTML = "";
+      select2.innerHTML = "";
+
+      allDrivers.forEach((d, idx) => {
+        const opt1 = document.createElement("option");
+        opt1.value = idx;
+        opt1.textContent = `#${d.number} ${d.forename} ${d.surname} (${d.teamName})`;
+        select1.appendChild(opt1);
+
+        const opt2 = document.createElement("option");
+        opt2.value = idx;
+        opt2.textContent = `#${d.number} ${d.forename} ${d.surname} (${d.teamName})`;
+        select2.appendChild(opt2);
+      });
+
+      if (allDrivers.length > 2) {
+        select1.value = 0; // Antonelli
+        select2.value = 2; // Hamilton
+      }
+      updateH2H();
+    }
+
+    // Update H2H Comparison View
+    function updateH2H() {
+      const idx1 = document.getElementById("driver1Select").value;
+      const idx2 = document.getElementById("driver2Select").value;
+      const d1 = allDrivers[idx1];
+      const d2 = allDrivers[idx2];
+
+      const container = document.getElementById("h2hComparisonContainer");
+
+      const parseRank = (chip) => {
+        const match = chip.match(/P(\d+)/);
+        return match ? parseInt(match[1]) : 99;
+      };
+
+      const rank1 = parseRank(d1.standingChip);
+      const rank2 = parseRank(d2.standingChip);
+
+      const r1Win = rank1 < rank2 ? 'winner' : '';
+      const r2Win = rank2 < rank1 ? 'winner' : '';
+      const pts1Win = d1.seasonPoints > d2.seasonPoints ? 'winner' : '';
+      const pts2Win = d2.seasonPoints > d1.seasonPoints ? 'winner' : '';
+      const wdc1Win = d1.wdcTitles > d2.wdcTitles ? 'winner' : '';
+      const wdc2Win = d2.wdcTitles > d1.wdcTitles ? 'winner' : '';
+      const win1Win = d1.wins > d2.wins ? 'winner' : '';
+      const win2Win = d2.wins > d1.wins ? 'winner' : '';
+      const pod1Win = d1.podiums > d2.podiums ? 'winner' : '';
+      const pod2Win = d2.podiums > d1.podiums ? 'winner' : '';
+
+      container.innerHTML = `
+        <div class="h2h-comparison-grid">
+          <div class="h2h-driver-box" style="border-top: 4px solid ${d1.teamColor}">
+            <div style="font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: ${d1.teamColor}">#${d1.number}</div>
+            <h3>${d1.forename} ${d1.surname}</h3>
+            <div class="team-tag">${d1.teamName}</div>
+          </div>
+          <div class="h2h-vs-badge">VS</div>
+          <div class="h2h-driver-box" style="border-top: 4px solid ${d2.teamColor}">
+            <div style="font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: ${d2.teamColor}">#${d2.number}</div>
+            <h3>${d2.forename} ${d2.surname}</h3>
+            <div class="team-tag">${d2.teamName}</div>
+          </div>
+        </div>
+
+        <div class="h2h-stats-list">
+          <div class="h2h-stat-row">
+            <div class="h2h-stat-val ${r1Win}">${d1.standingChip}</div>
+            <div class="stat-label">Championship Standing</div>
+            <div class="h2h-stat-val ${r2Win}">${d2.standingChip}</div>
+          </div>
+          <div class="h2h-stat-row">
+            <div class="h2h-stat-val ${pts1Win}">${d1.seasonPoints} PTS</div>
+            <div class="stat-label">2026 Season Points</div>
+            <div class="h2h-stat-val ${pts2Win}">${d2.seasonPoints} PTS</div>
+          </div>
+          <div class="h2h-stat-row">
+            <div class="h2h-stat-val ${wdc1Win}">${d1.wdcTitles}</div>
+            <div class="stat-label">World Drivers' Championships</div>
+            <div class="h2h-stat-val ${wdc2Win}">${d2.wdcTitles}</div>
+          </div>
+          <div class="h2h-stat-row">
+            <div class="h2h-stat-val ${win1Win}">${d1.wins}</div>
+            <div class="stat-label">Career Grand Prix Wins</div>
+            <div class="h2h-stat-val ${win2Win}">${d2.wins}</div>
+          </div>
+          <div class="h2h-stat-row">
+            <div class="h2h-stat-val ${pod1Win}">${d1.podiums}</div>
+            <div class="stat-label">Career Podiums</div>
+            <div class="h2h-stat-val ${pod2Win}">${d2.podiums}</div>
+          </div>
+          <div class="h2h-stat-row">
+            <div class="h2h-stat-val">${d1.raceEngineer}</div>
+            <div class="stat-label">Race Engineer</div>
+            <div class="h2h-stat-val">${d2.raceEngineer}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Live Countdown to Next Race (Dutch GP - August 23, 2026)
+    function startCountdown() {
+      // Dutch GP race start: August 23, 2026 at 15:00 CEST (13:00 UTC)
+      const raceDate = new Date("2026-08-23T13:00:00Z").getTime();
+
+      setInterval(() => {
+        const now = new Date().getTime();
+        const distance = raceDate - now;
+
+        const timerEl = document.getElementById("countdownTimer");
+        if (distance < 0) {
+          timerEl.textContent = "Race Weekend Underway!";
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        timerEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }, 1000);
+    }
+
+    // Easter Egg: Handle Isack Hadjar clicks (5 times)
+    function handleHadjarClick() {
+      hadjarClickCount++;
+      if (hadjarClickCount >= 5) {
+        hadjarClickCount = 0;
+        const hadjarCards = document.querySelectorAll('.driver-surname');
+        hadjarCards.forEach(el => {
+          if (el.textContent === "HADJAR") {
+            el.textContent = "YUKI TSUNODA";
+            el.style.color = "#FFB800";
+          }
+        });
+        document.getElementById("yukiModal").style.display = "flex";
+      }
+    }
+
+    function closeYukiModal(event) {
+      document.getElementById("yukiModal").style.display = "none";
+    }
+
+    // Switch View / Team Portal / H2H
     function switchPage(pageId) {
       activePageId = pageId;
       window.location.hash = pageId;
 
       const topBtnShowcase = document.getElementById("topBtnShowcase");
       const topBtnTable = document.getElementById("topBtnTable");
+      const topBtnH2H = document.getElementById("topBtnH2H");
+
+      topBtnShowcase.classList.remove("active");
+      topBtnTable.classList.remove("active");
+      topBtnH2H.classList.remove("active");
+
       if (pageId === 'overview') {
-        topBtnShowcase.classList.remove("active");
         topBtnTable.classList.add("active");
+      } else if (pageId === 'h2h') {
+        topBtnH2H.classList.add("active");
       } else {
         topBtnShowcase.classList.add("active");
-        topBtnTable.classList.remove("active");
       }
 
       document.querySelectorAll(".nav-tab-btn").forEach(btn => btn.classList.remove("active"));
@@ -1630,10 +2127,13 @@
         activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
       }
 
-      document.querySelectorAll(".team-page, .overview-page").forEach(page => page.classList.remove("active"));
+      document.querySelectorAll(".team-page, .overview-page, .h2h-page").forEach(page => page.classList.remove("active"));
 
       if (pageId === 'overview') {
         document.getElementById("page-overview").classList.add("active");
+      } else if (pageId === 'h2h') {
+        document.getElementById("page-h2h").classList.add("active");
+        updateH2H();
       } else {
         const targetPage = document.getElementById("page-" + pageId);
         if (targetPage) targetPage.classList.add("active");
@@ -1646,9 +2146,11 @@
       buildNavbar();
       buildTeamPages();
       buildOverviewTable();
+      initH2HSelectors();
+      startCountdown();
 
       const hash = window.location.hash.replace("#", "");
-      if (hash && (hash === "overview" || f1Teams.some(t => t.id === hash))) {
+      if (hash && (hash === "overview" || hash === "h2h" || f1Teams.some(t => t.id === hash))) {
         switchPage(hash);
       } else {
         switchPage("mercedes");
