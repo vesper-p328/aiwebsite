@@ -1,5 +1,4 @@
-with open("f1_team_tracker_live.html", "w", encoding="utf-8") as f:
-    f.write("""<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -1778,7 +1777,7 @@ with open("f1_team_tracker_live.html", "w", encoding="utf-8") as f:
       }
     ];
 
-    // Master Calendar Schedule for Automated Countdown Routing
+    // 2026 Official Calendar Schedule (Automatically targets the next race)
     const f1Schedule2026 = [
       { name: "Dutch GP (Zandvoort)", date: "2026-08-23T13:00:00Z" },
       { name: "Italian GP (Monza)", date: "2026-09-06T13:00:00Z" },
@@ -1799,7 +1798,6 @@ with open("f1_team_tracker_live.html", "w", encoding="utf-8") as f:
     let computedTeams = [];
     let allDrivers = [];
 
-    // Calculate live dynamic standings and stats per round
     function calculateRoundStandings(roundNum) {
       const teams = JSON.parse(JSON.stringify(masterTeamsData));
       let allDriversList = [];
@@ -1834,14 +1832,12 @@ with open("f1_team_tracker_live.html", "w", encoding="utf-8") as f:
         team.teamWins = team.baseTeamWins + teamSeasonWins;
       });
 
-      // Sort drivers by points to calculate dynamic WDC ranks
       allDriversList.sort((a, b) => b.seasonPoints - a.seasonPoints);
       allDriversList.forEach((d, index) => {
         d.wdcRank = index + 1;
         d.standingChip = `P${d.wdcRank} • ${d.seasonPoints} PTS`;
       });
 
-      // Re-link drivers back to teams
       teams.forEach(team => {
         team.drivers = team.drivers.map(d => {
           const matched = allDriversList.find(x => x.number === d.number);
@@ -1849,7 +1845,6 @@ with open("f1_team_tracker_live.html", "w", encoding="utf-8") as f:
         });
       });
 
-      // Sort teams by Constructors Championship points
       teams.sort((a, b) => b.seasonPoints - a.seasonPoints);
       teams.forEach((team, idx) => {
         team.standing = idx + 1;
@@ -2228,7 +2223,6 @@ with open("f1_team_tracker_live.html", "w", encoding="utf-8") as f:
       document.getElementById("radioVideoModal").style.display = "flex";
     }
 
-    // Easter Egg Event Listener (Robust Document Delegation)
     document.addEventListener('click', function(event) {
       if (event.target && event.target.classList.contains('driver-surname')) {
         if (event.target.textContent.trim() === "HADJAR") {
@@ -2258,7 +2252,7 @@ with open("f1_team_tracker_live.html", "w", encoding="utf-8") as f:
       }
     }
 
-    // Automated Next Race Finder & Countdown Clock
+    // Automated Next Race Finder & Countdown Engine
     function startCountdown() {
       const updateTimer = () => {
         const now = new Date().getTime();
@@ -2288,80 +2282,80 @@ with open("f1_team_tracker_live.html", "w", encoding="utf-8") as f:
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const seconds = Math.floorTo fix the page load issue and automate race fetching so you never have to hardcode the upcoming Grand Prix manually, you need to address both GitHub Pages / hosting file path rules and dynamic API fetching via client-side JavaScript.
 
-        timerEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-      };
+### 1. Fix Page Loading Issues
+Common reasons static pages fail to render or return 404:
 
-      updateTimer();
-      setInterval(updateTimer, 1000);
+* **File Naming & Root Placement:** Ensure your main entry file is named strictly lowercase `index.html` and resides in the root directory (or `/docs` folder depending on your GitHub Pages settings).
+* **Asset Path Issues:** Switch all relative links from absolute `/styles.css` to relative `./styles.css` or `./assets/...` to avoid base URL mismatch when served under repository subpaths.
+* **CORS / Mixed Content:** If your script tries to fetch via `http://` instead of `https://`, browsers block the request immediately.
+
+---
+
+### 2. Automated Next Race Fetcher (JavaScript + Ergast/OpenF1 API)
+
+Instead of manually updating race schedules, fetch the upcoming Grand Prix directly from the Jolpica/Ergast API on window load. 
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F1 Next Race Tracker</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
     }
-
-    function switchPage(pageId) {
-      activePageId = pageId;
-      window.location.hash = pageId;
-
-      const topBtnShowcase = document.getElementById("topBtnShowcase");
-      const topBtnTable = document.getElementById("topBtnTable");
-      const topBtnH2H = document.getElementById("topBtnH2H");
-
-      if (topBtnShowcase) topBtnShowcase.classList.remove("active");
-      if (topBtnTable) topBtnTable.classList.remove("active");
-      if (topBtnH2H) topBtnH2H.classList.remove("active");
-
-      if (pageId === 'overview' && topBtnTable) {
-        topBtnTable.classList.add("active");
-      } else if (pageId === 'h2h' && topBtnH2H) {
-        topBtnH2H.classList.add("active");
-      } else if (topBtnShowcase) {
-        topBtnShowcase.classList.add("active");
-      }
-
-      document.querySelectorAll(".nav-tab-btn").forEach(btn => btn.classList.remove("active"));
-      const activeBtn = document.getElementById("btn-nav-" + pageId);
-      if (activeBtn) {
-        activeBtn.classList.add("active");
-        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-      }
-
-      document.querySelectorAll(".team-page, .overview-page, .h2h-page").forEach(page => page.classList.remove("active"));
-
-      if (pageId === 'overview') {
-        const el = document.getElementById("page-overview");
-        if (el) el.classList.add("active");
-      } else if (pageId === 'h2h') {
-        const el = document.getElementById("page-h2h");
-        if (el) el.classList.add("active");
-        updateH2H();
-      } else {
-        const targetPage = document.getElementById("page-" + pageId);
-        if (targetPage) targetPage.classList.add("active");
-      }
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    .card {
+      background: #1e293b;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
     }
+    .race-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #e10600; /* F1 Red */
+      margin-bottom: 0.5rem;
+    }
+    .details {
+      margin: 1rem 0;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      background: #334155;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
 
-    document.addEventListener("DOMContentLoaded", () => {
-      calculateRoundStandings(currentRound);
-      buildNavbar();
-      buildTeamPages();
-      buildOverviewTable();
-      initH2HSelectors();
-      startCountdown();
+  <div class="card" id="race-card">
+    <div class="badge">Upcoming Round</div>
+    <h2 class="race-title" id="race-name">Loading next GP...</h2>
+    <div class="details" id="race-details">Fetching race calendar...</div>
+  </div>
 
-      const hash = window.location.hash.replace("#", "");
-      if (hash && (hash === "overview" || hash === "h2h" || computedTeams.some(t => t.id === hash))) {
-        switchPage(hash);
-      } else {
-        switchPage("mercedes");
-      }
-    });
-
-    window.addEventListener("hashchange", () => {
-      const hash = window.location.hash.replace("#", "");
-      if (hash) switchPage(hash);
-    });
-  </script>
-</body>
-</html>
-""")
+  <script>
+    async function fetchNextRace() {
+      try {
+        // Fetches the current season's remaining/next race automatically
+        const response = await fetch('[https://api.jolpi.ca/ergast/f1/current/next.json](https://api.jolpi.ca/ergast/f1/current/next.json)');
+        
+        if (!response.ok) throw
