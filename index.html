@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FIA Formula 1 Championship Team Tracker • 2026 Season</title>
+  <title>FIA Formula 1 Championship Team Tracker • 2026 Live Standings</title>
   
-  <!-- Typography: Orbitron (Display/Metrics) + Plus Jakarta Sans (Clean Telemetry/Body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
@@ -45,7 +44,6 @@
         radial-gradient(circle at 10% 40%, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
     }
 
-    /* Top Brand Header */
     .top-header {
       background: linear-gradient(180deg, #101624 0%, #080C14 100%);
       border-bottom: 1px solid var(--border-subtle);
@@ -122,7 +120,6 @@
       display: inline-block;
     }
 
-    /* Live Countdown Header Widget */
     .countdown-widget {
       background: rgba(18, 26, 43, 0.85);
       border: 1px solid rgba(255, 184, 0, 0.35);
@@ -180,7 +177,6 @@
       box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
     }
 
-    /* Race Round Toolbar */
     .round-selector-bar {
       background: rgba(14, 20, 34, 0.92);
       border-bottom: 1px solid var(--border-subtle);
@@ -219,7 +215,6 @@
       cursor: pointer;
     }
 
-    /* Sticky 11-Team Glowing Navbar */
     .nav-container {
       background: rgba(9, 13, 22, 0.95);
       border-bottom: 1px solid var(--border-subtle);
@@ -370,9 +365,7 @@
     }
 
     @media (max-width: 1024px) {
-      .showcase-hero-layout {
-        grid-template-columns: 1fr;
-      }
+      .showcase-hero-layout { grid-template-columns: 1fr; }
     }
 
     .showcase-hero-layout::before {
@@ -456,9 +449,7 @@
     }
 
     @media (max-width: 600px) {
-      .specs-sub-cards {
-        grid-template-columns: 1fr;
-      }
+      .specs-sub-cards { grid-template-columns: 1fr; }
     }
 
     .sub-spec-card {
@@ -545,9 +536,7 @@
       margin-top: 2px;
     }
 
-    .section-bar-header {
-      margin-bottom: 20px;
-    }
+    .section-bar-header { margin-bottom: 20px; }
 
     .section-bar-title {
       font-family: var(--font-display);
@@ -586,9 +575,7 @@
     }
 
     @media (max-width: 860px) {
-      .drivers-grid {
-        grid-template-columns: 1fr;
-      }
+      .drivers-grid { grid-template-columns: 1fr; }
     }
 
     .driver-card {
@@ -659,9 +646,7 @@
       transition: color 0.2s ease;
     }
 
-    .driver-surname:hover {
-      color: var(--f1-gold);
-    }
+    .driver-surname:hover { color: var(--f1-gold); }
 
     .driver-code-meta {
       font-family: var(--font-body);
@@ -765,13 +750,8 @@
       z-index: 2;
     }
 
-    .stat-col {
-      text-align: center;
-    }
-
-    .stat-col:not(:last-child) {
-      border-right: 1px solid var(--border-subtle);
-    }
+    .stat-col { text-align: center; }
+    .stat-col:not(:last-child) { border-right: 1px solid var(--border-subtle); }
 
     .stat-col .stat-val {
       font-family: var(--font-display);
@@ -841,9 +821,7 @@
     }
 
     @media (max-width: 768px) {
-      .h2h-selectors {
-        grid-template-columns: 1fr;
-      }
+      .h2h-selectors { grid-template-columns: 1fr; }
     }
 
     .h2h-select-group label {
@@ -879,12 +857,8 @@
     }
 
     @media (max-width: 900px) {
-      .h2h-comparison-grid {
-        grid-template-columns: 1fr;
-      }
-      .h2h-vs-badge {
-        margin: 10px 0;
-      }
+      .h2h-comparison-grid { grid-template-columns: 1fr; }
+      .h2h-vs-badge { margin: 10px 0; }
     }
 
     .h2h-driver-box {
@@ -963,9 +937,7 @@
       animation: neonPortalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .overview-page.active {
-      display: block;
-    }
+    .overview-page.active { display: block; }
 
     .f1-table-card {
       background: var(--bg-surface);
@@ -1003,13 +975,8 @@
       transition: background 0.15s ease;
     }
 
-    .f1-table tr {
-      cursor: pointer;
-    }
-
-    .f1-table tr:hover td {
-      background: var(--bg-card-hover);
-    }
+    .f1-table tr { cursor: pointer; }
+    .f1-table tr:hover td { background: var(--bg-card-hover); }
 
     .f1-modal-overlay {
       position: fixed;
@@ -1105,7 +1072,7 @@
       </div>
     </div>
 
-    <!-- Dynamic Next Race Countdown Widget (Rolls over past Dutch GP automatically) -->
+    <!-- Live Countdown Widget -->
     <div class="countdown-widget">
       <div>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFB800"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
@@ -1775,7 +1742,6 @@
       }
     ];
 
-    // 2026 Official Calendar Schedule (Automatically targets the next race)
     const f1Schedule2026 = [
       { name: "Dutch GP (Zandvoort)", date: "2026-08-23T13:00:00Z" },
       { name: "Italian GP (Monza)", date: "2026-09-06T13:00:00Z" },
@@ -2221,7 +2187,6 @@
       document.getElementById("radioVideoModal").style.display = "flex";
     }
 
-    // Easter Egg Event Listener (Hadjar -> Yuki Tsunoda transformation)
     document.addEventListener('click', function(event) {
       if (event.target && event.target.classList.contains('driver-surname')) {
         if (event.target.textContent.trim() === "HADJAR") {
@@ -2251,12 +2216,10 @@
       }
     }
 
-    // Automated Next Race Finder & Countdown Clock
     function startCountdown() {
       const updateTimer = () => {
         const now = new Date().getTime();
         
-        // Find next upcoming race from 2026 calendar automatically
         let nextEvent = f1Schedule2026.find(race => new Date(race.date).getTime() > now);
         
         if (!nextEvent) {
@@ -2280,74 +2243,32 @@
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.To automate driver stat updates after every race, the cleanest approach is an event-driven architecture using an object-oriented Python structure. 
+        const seconds = Math.floor((distance % (1000 * 60))To troubleshoot what went wrong, check these common failure points:
 
-Whenever a race concludes, the `Race` object emits finishing order data to an `update_stats()` method on each `Driver`, updating total points, podiums, wins, and average finish positions.
+**1. Verify the GitHub Pages Deployment Status**
+* Go to your repository on GitHub.
+* Click the **Actions** tab at the top. Check if the latest **pages build and deployment** workflow failed or is still queued.
+* Check **Settings** > **Pages**:
+  * Ensure the **Source** is set correctly (e.g., `Deploy from a branch`).
+  * Verify the selected branch (e.g., `main` or `gh-pages`) and folder (usually `/ (root)` or `/docs`).
 
-### Implementation
+**2. Check the Root File Name & Path**
+* Ensure your entry file is strictly named lowercase `index.html` (not `Index.html` or `home.html`).
+* Confirm `index.html` is in the exact folder specified in your Pages settings (root `/` or `/docs`).
 
-```python
-from dataclasses import dataclass, field
-from typing import List, Dict
+**3. Check Asset & Link Paths (Relative vs. Absolute)**
+* For project sites hosted under a subpath (e.g., `username.github.io/repo-name/`), absolute paths like `/style.css` or `/images/logo.png` will break because they resolve to `username.github.io/style.css`.
+* Switch asset links to relative paths (e.g., `./style.css` or `style.css`).
 
-# Standard FIA Points System (P1 through P10)
-POINTS_SYSTEM = {1: 25, 2: 18, 3: 15, 4: 12, 5: 10, 6: 8, 7: 6, 8: 4, 9: 2, 10: 1}
+**4. Check Custom Domain / CNAME Settings**
+* If you recently configured or modified a custom domain, check if the `CNAME` file in the repo root matches your domain.
+* Ensure DNS records (A records or CNAME) are pointing correctly and that GitHub's **Enforce HTTPS** status is green.
 
-@dataclass
-class Driver:
-    name: str
-    team: str
-    races_entered: int = 0
-    total_points: int = 0
-    wins: int = 0
-    podiums: int = 0
-    finishes: List[int] = field(default_factory=list)
+**5. Clear Cache / Inspect Console**
+* Open your browser developer tools (**F12** or **Ctrl + Shift + I** / **Cmd + Option + I**).
+* Check the **Console** and **Network** tabs for `404 Not Found`, mixed-content HTTP/HTTPS warnings, or broken JavaScript execution.
+* Try a hard refresh (**Ctrl + F5** / **Cmd + Shift + R**) or open in an Incognito window.
 
-    @property
-    def avg_finish(self) -> float:
-        return sum(self.finishes) / len(self.finishes) if self.finishes else 0.0
+***
 
-    def record_race_result(self, position: int, fastest_lap: bool = False):
-        """Automatically updates internal tallies after a race."""
-        self.races_entered += 1
-        self.finishes.append(position)
-        
-        # Calculate points
-        points = POINTS_SYSTEM.get(position, 0)
-        if fastest_lap and position <= 10:
-            points += 1
-        self.total_points += points
-
-        # Update milestones
-        if position == 1:
-            self.wins += 1
-        if position <= 3:
-            self.podiums += 1
-
-
-class Championship:
-    def __init__(self, drivers: List[Driver]):
-        self.drivers: Dict[str, Driver] = {d.name: d for d in drivers}
-
-    def process_race(self, results: List[str], fastest_lap_holder: str = None):
-        """
-        Processes race results in order: results[0] = P1, results[1] = P2, etc.
-        """
-        for position, driver_name in enumerate(results, start=1):
-            if driver_name in self.drivers:
-                driver = self.drivers[driver_name]
-                has_fastest_lap = (driver_name == fastest_lap_holder)
-                driver.record_race_result(position, has_fastest_lap)
-
-    def print_standings(self):
-        # Sort by total points, then wins as tiebreak
-        sorted_standings = sorted(
-            self.drivers.values(),
-            key=lambda d: (d.total_points, d.wins),
-            reverse=True
-        )
-        
-        print(f"{'Pos':<4} | {'Driver':<18} | {'Team':<18} | {'Points':<7} | {'Wins':<5} | {'Podiums':<8} | {'Avg Pos'}")
-        print("-" * 75)
-        for rank, d in enumerate(sorted_standings, start=1):
-            print(f"{rank:<4} | {d.name:<18} | {d.team:<18} | {d.total_points:<7} | {d.wins:<5} | {d.podiums:<8} | {d.avg_finish:.2f}")
+What specific error code or screen are you seeing (e.g., GitHub 404 page, blank white screen, or broken styling)?
